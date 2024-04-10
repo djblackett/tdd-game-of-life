@@ -20,6 +20,7 @@
     "npm": ">=10"
   },
   "scripts": {
+    "start": "ts-node src/GameOfLife.ts",
     "test": "vitest run",
     "autotest": "vitest watch",
     "format": "prettier --write ."

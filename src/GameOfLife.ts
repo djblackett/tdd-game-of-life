@@ -1,6 +1,7 @@
 export class GameOfLife {
   width = -1;
-  height = -1
+  height = -1;
+  startingShape = [[""]];
 
 
   parseRLEString(input: string) {
@@ -31,12 +32,30 @@ export class GameOfLife {
       this.height = parseInt(y);
     }
 
+    if (data) {
+      let lines = data.split("$");
+      let tempGrid = [];
+
+      for (let row = 0; row < lines.length; row++) {
+        let str = "";
+        for (let char = 0; char < lines[row].length; char++) {
+
+          if (lines[row][char].match(/\d/)) {
+            str += lines[row][char + 1].repeat(parseInt(lines[row][char]));
+            char++;
+          } else if (lines[row][char].match("[a-z]")) {
+            str += lines[row][char];
+          }
+        }
+
+        tempGrid[row] = str.split("");
+      }
+
+      this.startingShape = tempGrid;
+    }
   }
 
 }
-
-
-
 
 
 const glider =
@@ -46,3 +65,9 @@ const glider =
 #C www.conwaylife.com/wiki/index.php?title=Glider
 x = 3, y = 3, rule = B3/S23
 bob$2bo$3o!`
+
+
+const game = new GameOfLife()
+game.parseRLEString(glider);
+console.log();
+

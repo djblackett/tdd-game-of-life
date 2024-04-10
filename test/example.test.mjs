@@ -35,14 +35,14 @@ describe("Game of Life", () => {
 
 
 
-  test.skip("should parse an RLE string input and return as matrix", () => {
-
-    const result = parseRLEString(glider);
+  test("should parse an RLE string input and return as matrix", () => {
+    const gol = new GameOfLife();
+    gol.parseRLEString(glider);
     const expected = [
       ["b", "o", "b"],
       ["b", "b", "o"],
       ["o", "o", "o"]
     ];
-    expect(result).to.deep.equal(expected);
+    expect(gol.startingShape).to.deep.equal(expected);
   });
 });
