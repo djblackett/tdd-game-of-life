@@ -39,7 +39,6 @@ export class GameOfLife {
       for (let row = 0; row < lines.length; row++) {
         let str = "";
         for (let char = 0; char < lines[row].length; char++) {
-
           if (lines[row][char].match(/\d/)) {
             str += lines[row][char + 1].repeat(parseInt(lines[row][char]));
             char++;
@@ -47,12 +46,37 @@ export class GameOfLife {
             str += lines[row][char];
           }
         }
-
         tempGrid[row] = str.split("");
       }
-
       this.startingShape = tempGrid;
     }
+  }
+
+  outputRLE() {
+    const charArr = [];
+    for (let i = 0; i < this.height; i++) {
+      let str = "";
+      let count = 1;
+      let isRun = false;
+
+      for (let j = 0; j < this.width; j++) {
+        let char = this.startingShape[i][j];
+        let char2 = this.startingShape[i][j + 1];
+
+        if ( char === char2){
+          isRun = true;
+          count++;
+        } else if (char !== char2 && isRun) {
+          str += count + char;
+          isRun = false;
+          count = 1;
+        } else {
+          str += char;
+        }
+      }
+      charArr[i] = str;
+    }
+    return charArr.join("$") + "!";
   }
 
 }
@@ -69,5 +93,6 @@ bob$2bo$3o!`
 
 const game = new GameOfLife()
 game.parseRLEString(glider);
-console.log();
+console.log(game.outputRLE());
+
 
