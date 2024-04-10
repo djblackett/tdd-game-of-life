@@ -30,11 +30,6 @@ describe("Game of Life", () => {
     expect(gol.height).to.equal(3);
   })
 
-
-
-
-
-
   test("should parse an RLE string input and return as matrix", () => {
     const gol = new GameOfLife();
     gol.parseRLEString(glider);
@@ -45,4 +40,11 @@ describe("Game of Life", () => {
     ];
     expect(gol.startingShape).to.deep.equal(expected);
   });
+
+  test("should output the matrix as an RLE string", () => {
+    const game = new GameOfLife();
+    game.parseRLEString(glider);
+    const result = game.outputRLE();
+    expect(result).to.deep.equal("bob$2bo$3o!");
+  })
 });
