@@ -1,8 +1,21 @@
+import fs from "node:fs/promises"
+import * as path from "path";
 export class GameOfLife {
   width = -1;
   height = -1;
   startingShape = [[""]];
 
+  static async readFile(url: string) {
+    try {
+      const input = await fs.readFile(url, { encoding: 'utf8' })
+      if (input) {
+        return input.trim().replaceAll("\r", "");
+      }
+    } catch(e) {
+      console.error(e);
+      return null;
+    }
+  }
 
   parseRLEString(input: string) {
     const lines = input.split("\n");
