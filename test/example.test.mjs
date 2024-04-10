@@ -2,6 +2,7 @@ import { describe, test } from "vitest";
 import { expect } from "chai";
 import { GameOfLife } from "../src/GameOfLife";
 
+
 const glider = `#N Glider
 #O Richard K. Guy
 #C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.
@@ -47,4 +48,18 @@ describe("Game of Life", () => {
     const result = game.outputRLE();
     expect(result).to.deep.equal("bob$2bo$3o!");
   })
+
+  test("should read string from RLE file", async () => {
+    const expected = `#N Glider
+#O Richard K. Guy
+#C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.
+#C www.conwaylife.com/wiki/index.php?title=Glider
+x = 3, y = 3, rule = B3/S23
+bob$2bo$3o!`
+
+    const result = await GameOfLife.readFile("test/glider.rle");
+    expect(result).to.deep.equal(expected);
+  })
+
+
 });
