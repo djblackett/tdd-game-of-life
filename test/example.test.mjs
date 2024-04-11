@@ -111,20 +111,22 @@ bob$2bo$3o!`
 
   // must test on a game board larger than the given block
   test("should return next generation of game board from given board", () => {
-    const board = [
+    const shape = [
       ["b", "o", "b"],
       ["b", "b", "o"],
       ["o", "o", "o"]
     ];
 
     const game = new GameOfLife();
-    game.parseRLEString(glider);
-    console.log("Starting shape");
-    console.table(game.startingShape)
-    const result = game.evolve(game.startingShape);
-    console.log("expected");
-    console.table(result);
+    const board = game.generateBoard(5, 5);
+    game.placeShape(board, shape, 1, 1);
+    const nextGen = game.evolve(board);
 
+    const result = game.isolateShape(nextGen, 3, 3);
+    console.log("NextGen:");
+    console.table(nextGen)
+    console.log("Result:");
+    console.table(result);
 
     const expected = [ [ 'o', 'b', 'o' ], [ 'b', 'o', 'o' ], [ 'b', 'o', 'b' ] ];
     expect(result).to.deep.equal(expected);
