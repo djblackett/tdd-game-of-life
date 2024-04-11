@@ -104,6 +104,16 @@ export class GameOfLife {
     return str;
   }
 
+  calculateLivingNeighbors(neighbors: string[]) {
+    let count = 0;
+    for (let i of neighbors) {
+      if (i === "o") {
+        count++;
+      }
+    }
+    return count;
+  }
+
 }
 
 
