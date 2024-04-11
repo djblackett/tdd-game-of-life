@@ -93,6 +93,21 @@ bob$2bo$3o!`
     expect(result).toEqual(5);
   })
 
+  test("should return neighbors of a cell on an edge of board with wrap around", () => {
+    const shape = [
+      ["b", "o", "b"],
+      ["b", "b", "o"],
+      ["o", "o", "o"]
+    ];
+
+    const game = new GameOfLife()
+    game.parseRLEString(glider);
+    const result = game.getNeighbors(shape, 1, 2);
+    const expected = ["o", "b", "b", "b", "b", "o", "o", "o"];
+
+    expect(result).to.deep.equal(expected);
+  });
+
 
 
 
