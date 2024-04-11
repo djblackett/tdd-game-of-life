@@ -1,5 +1,4 @@
 import fs from "node:fs/promises"
-import * as path from "path";
 export class GameOfLife {
   width = -1;
   height = -1;
@@ -132,11 +131,9 @@ export class GameOfLife {
     if (num < 0) {
       return size - 1;
     }
-
     if (num >= size) {
       return 0;
     }
-
     return num;
   }
 
@@ -153,9 +150,9 @@ const glider =
 x = 3, y = 3, rule = B3/S23
 bob$2bo$3o!`
 
-
-const game = new GameOfLife()
-game.parseRLEString(glider);
-console.log(game.outputRLE());
+//
+// const game = new GameOfLife()
+// game.parseRLEString(glider);
+// console.log(game.outputRLE());
 
 

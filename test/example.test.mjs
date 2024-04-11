@@ -108,6 +108,19 @@ bob$2bo$3o!`
     expect(result).to.deep.equal(expected);
   });
 
+  test("should return next generation of game board from given board", () => {
+    const board = [
+      ["b", "o", "b"],
+      ["b", "b", "o"],
+      ["o", "o", "o"]
+    ];
+
+    const game = new GameOfLife();
+    const result = game.evolve(board);
+    const expected = [[""]];
+    expect(result).to.deep.equal(expected);
+  })
+
 
 
 
