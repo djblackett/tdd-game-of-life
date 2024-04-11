@@ -103,6 +103,58 @@ export class GameOfLife {
     return str;
   }
 
+  generateBoard(row: number, col: number) {
+    const board: string[][] = []
+    for (let i = 0; i < row; i++) {
+      board[i] = [];
+      for (let j = 0; j < col; j++) {
+        board[i][j] = "b";
+      }
+    }
+    return board;
+  }
+
+  placeShape(board: string[][], shape: string[][], row:number, col: number) {
+    try {
+      for (let i = 0; i < shape.length; i++) {
+        for (let j = 0; j < shape[0].length; j++) {
+          board[i + row][j + col] = shape[i][j];
+        }
+      }
+      return board;
+    } catch (e) {
+      console.error("Shape cannot be placed at that board location")
+    }
+  }
+
+  isolateShape(board: string[][], shapeHeight: number, shapeWidth: number) {
+    let iStart = 1000;
+    let jStart = 1000;
+
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[0].length; j++) {
+        if (board[i][j] === "o") {
+          if (i < iStart) {
+            iStart = i;
+          }
+          if (j < jStart) {
+            jStart = j;
+          }
+        }
+      }
+    }
+
+    const result = [];
+    for (let i = iStart; i < iStart + shapeHeight; i++) {
+      const row = [];
+      for (let j = jStart; j < jStart + shapeWidth; j++) {
+        row.push(board[i][j]);
+      }
+      result.push(row);
+    }
+    return result;
+  }
+
   calculateLivingNeighbors(neighbors: string[]) {
     let count = 0;
     for (let i of neighbors) {
@@ -113,14 +165,18 @@ export class GameOfLife {
     return count;
   }
 
+
   getNeighbors(shape: string[][], r: number, c: number) {
     const neighbors = [];
 
     for (let i = r - 1; i < r + 2; i++) {
       for (let j = c - 1; j < c + 2; j++) {
-        if (i === r && j === c) {
+        if (i === r && j === c
+          // || i < 0 || i >= this.height || j < 0 || j > this.width
+        ) {
           continue;
         }
+        // neighbors.push(shape[i][j]);
         neighbors.push(shape[this.wrapCoordinates(i, this.height)][this.wrapCoordinates(j, this.width)]);
       }
     }
@@ -137,6 +193,30 @@ export class GameOfLife {
     return num;
   }
 
+  evolve(currentBoard: string[][]) {
+    const newBoard: string[][] = structuredClone(currentBoard);
+    for (let i = 0; i < this.height; i++) {
+      for (let j = 0; j < this.width; j++) {
+        const char = currentBoard[i][j];
+
+        // Need a non wrapping version for current test
+        const livingNeighbors = this.calculateLivingNeighbors(this.getNeighbors(currentBoard, i, j));
+
+        if (char === "o" && livingNeighbors === 2 || livingNeighbors === 3) {
+          newBoard[i][j] = "o";
+        }
+
+        else if (char === "b" && livingNeighbors === 3) {
+          newBoard[i][j] = "o";
+        } else {
+          newBoard[i][j] = "b";
+        }
+      }
+    }
+    console.table(newBoard)
+    return newBoard
+  }
+
 }
 
 
@@ -150,9 +230,12 @@ const glider =
 x = 3, y = 3, rule = B3/S23
 bob$2bo$3o!`
 
-//
-// const game = new GameOfLife()
-// game.parseRLEString(glider);
+
+const game = new GameOfLife()
+game.parseRLEString(`x = 3, y = 3, rule = B3/S23
+    obo$b2o$bob!`);
+
 // console.log(game.outputRLE());
+// console.log(game.startingShape)
 
 
