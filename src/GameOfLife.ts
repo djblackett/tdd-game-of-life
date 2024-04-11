@@ -3,6 +3,7 @@ import * as path from "path";
 export class GameOfLife {
   width = -1;
   height = -1;
+  metadata: string[] = []
   startingShape = [[""]];
 
   static async readFile(url: string) {
@@ -19,12 +20,17 @@ export class GameOfLife {
 
   parseRLEString(input: string) {
     const lines = input.split("\n");
-    let metadata;
+    let structure;
     let data;
 
     for (let line of lines) {
+      if (line.startsWith("#")) {
+        this.metadata.push(line);
+      }
+
       if (line.startsWith("x")) {
-        metadata = line;
+        structure = line;
+        this.metadata.push(line);
       }
 
       if (line.endsWith("!")) {
@@ -32,7 +38,7 @@ export class GameOfLife {
       }
     }
 
-    const metaArr = metadata?.split(",");
+    const metaArr = structure?.split(",");
     let x;
     let y;
     if (metaArr) {
