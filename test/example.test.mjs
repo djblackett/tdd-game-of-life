@@ -110,7 +110,7 @@ bob$2bo$3o!`
 
 
   // must test on a game board larger than the given block
-  test.skip("should return next generation of game board from given board", () => {
+  test("should return next generation of game board from given board", () => {
     const board = [
       ["b", "o", "b"],
       ["b", "b", "o"],
@@ -176,7 +176,7 @@ bob$2bo$3o!`
     ];
 
     const game = new GameOfLife();
-    const result = game.isolateShape(board, shapeHeight, shapeWidth);
+    const result = game.isolateShape(board, 3, 3);
 
     const expected = [
       ["b", "o", "b"],
@@ -185,7 +185,5 @@ bob$2bo$3o!`
     ];
 
     expect(result).to.deep.equal(expected);
-
-
   })
 });
