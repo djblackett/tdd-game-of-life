@@ -98,6 +98,12 @@ export class GameOfLife {
     return charArr.join("$") + "!";
   }
 
+  outputFullRLE() {
+    let str = this.metadata.join("\n");
+    str += "\n" + this.outputRLE();
+    return str;
+  }
+
 }
 
 
