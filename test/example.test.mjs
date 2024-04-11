@@ -59,6 +59,13 @@ bob$2bo$3o!`
 
     const result = await GameOfLife.readFile("test/glider.rle");
     expect(result).to.deep.equal(expected);
+  });
+
+  test("should return pattern in rle format including metadata", () => {
+    const game = new GameOfLife();
+    game.parseRLEString(glider);
+    const result = game.outputFullRLE();
+    expect(result).to.deep.equal(glider);
   })
 
 
