@@ -68,19 +68,22 @@ bob$2bo$3o!`
     expect(result).to.deep.equal(glider);
   });
 
-  test.skip("should return all neighbors of a given cell", () => {
-    // const expected = [
-    //   ["b", "o", "b"],
-    //   ["b", "b", "o"],
-    //   ["o", "o", "o"]
-    // ];
+  test("should return all neighbors of a given cell", () => {
+    const shape = [
+      ["b", "o", "b"],
+      ["b", "b", "o"],
+      ["o", "o", "o"]
+    ];
 
     const game = new GameOfLife()
     game.parseRLEString(glider);
-    const result = game.getNeighbors(1, 1);
+    const result = game.getNeighbors(shape, 1, 1);
 
     // assuming middle cell
     const expected = ["b", "o", "b", "b", "o", "o", "o", "o"];
+
+    expect(result.length).toEqual(8);
+    expect(result).to.deep.equal(expected)
   });
 
   test("should calculate number of living neighbors", () => {
