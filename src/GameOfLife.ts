@@ -111,6 +111,8 @@ export class GameOfLife {
         board[i][j] = "b";
       }
     }
+    this.height = board.length;
+    this.width = board[0].length;
     return board;
   }
 
@@ -143,7 +145,6 @@ export class GameOfLife {
         }
       }
     }
-
     const result = [];
     for (let i = iStart; i < iStart + shapeHeight; i++) {
       const row = [];
