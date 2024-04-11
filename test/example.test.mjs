@@ -108,7 +108,9 @@ bob$2bo$3o!`
     expect(result).to.deep.equal(expected);
   });
 
-  test("should return next generation of game board from given board", () => {
+
+  // must test on a game board larger than the given block
+  test.skip("should return next generation of game board from given board", () => {
     const board = [
       ["b", "o", "b"],
       ["b", "b", "o"],
@@ -116,12 +118,74 @@ bob$2bo$3o!`
     ];
 
     const game = new GameOfLife();
-    const result = game.evolve(board);
-    const expected = [[""]];
+    game.parseRLEString(glider);
+    console.log("Starting shape");
+    console.table(game.startingShape)
+    const result = game.evolve(game.startingShape);
+    console.log("expected");
+    console.table(result);
+
+
+    const expected = [ [ 'o', 'b', 'o' ], [ 'b', 'o', 'o' ], [ 'b', 'o', 'b' ] ];
     expect(result).to.deep.equal(expected);
+  });
+
+
+  test("should generate game board full of 'dead' cells", () => {
+    const game = new GameOfLife();
+    const expected = game.generateBoard(10, 12)
+
+    const board = []
+    for (let i = 0; i < 10; i++) {
+      board[i] = [];
+      for (let j = 0; j < 12; j++) {
+        board[i][j] = "b";
+      }
+    }
+    expect(expected).to.deep.equal(board);
+  });
+
+  test("should place starting shape on board starting at given row and column", () => {
+    const game = new GameOfLife()
+    const board = game.generateBoard(4, 4);
+
+    const shape  = [
+      ["b", "o", "b"],
+      ["b", "b", "o"],
+      ["o", "o", "o"]
+    ];
+
+    const result = game.placeShape(board, shape, 0, 0);
+    const expected = [
+      ["b", "o", "b", "b"],
+      ["b", "b", "o", "b"],
+      ["o", "o", "o", "b"],
+      ["b", "b", "b", "b"]
+    ];
+    expect(result).to.deep.equal(expected);
+  });
+
+  test("should remove surrounding dead cells to isolate shape on board within its bounding box", () => {
+
+    const board = [
+      ["b", "b", "b", "b", "b"],
+      ["b", "b", "o", "b", "b"],
+      ["b", "b", "b", "o", "b"],
+      ["b", "o", "o", "o", "b"],
+      ["b", "b", "b", "b", "b"]
+    ];
+
+    const game = new GameOfLife();
+    const result = game.isolateShape(board, shapeHeight, shapeWidth);
+
+    const expected = [
+      ["b", "o", "b"],
+      ["b", "b", "o"],
+      ["o", "o", "o"]
+    ];
+
+    expect(result).to.deep.equal(expected);
+
+
   })
-
-
-
-
 });
