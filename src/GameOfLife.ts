@@ -125,26 +125,5 @@ export class GameOfLife {
     console.table(newBoard)
     return newBoard
   }
-
 }
-
-
-
-
-const glider =
-  `#N Glider
-#O Richard K. Guy
-#C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.
-#C www.conwaylife.com/wiki/index.php?title=Glider
-x = 3, y = 3, rule = B3/S23
-bob$2bo$3o!`
-
-
-const game = new GameOfLife()
-game.parseRLEString(`x = 3, y = 3, rule = B3/S23
-    obo$b2o$bob!`);
-
-// console.log(game.outputRLE());
-// console.log(game.startingShape)
-
 
