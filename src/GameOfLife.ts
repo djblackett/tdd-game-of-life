@@ -72,14 +72,14 @@ export class GameOfLife {
     }
   }
 
-  outputRLE() {
+  outputRLE(height: number, width: number) {
     const charArr = [];
-    for (let i = 0; i < this.height; i++) {
+    for (let i = 0; i < height; i++) {
       let str = "";
       let count = 1;
       let isRun = false;
 
-      for (let j = 0; j < this.width; j++) {
+      for (let j = 0; j < width; j++) {
         let char = this.startingShape[i][j];
         let char2 = this.startingShape[i][j + 1];
 
@@ -99,9 +99,9 @@ export class GameOfLife {
     return charArr.join("$") + "!";
   }
 
-  outputFullRLE() {
+  outputFullRLE(height: number, width: number) {
     let str = this.metadata.join("\n");
-    str += "\n" + this.outputRLE();
+    str += "\n" + this.outputRLE(height, width);
     return str;
   }
 
@@ -140,7 +140,7 @@ export class GameOfLife {
     const boundingBox = board.isolateShape(shape.length, shape[0].length)
     this.startingShape = boundingBox;
     console.table(this.startingShape)
-    return this.outputRLE();
+    return this.outputRLE(shape.length, shape[0].length);
 
   }
 }

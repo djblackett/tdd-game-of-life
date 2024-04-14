@@ -46,8 +46,8 @@ describe("Game of Life", () => {
 
     test("should output the matrix as an RLE string", () => {
       const game = new GameOfLife();
-      game.parseRLEString(glider);
-      const result = game.outputRLE();
+      const shape = game.parseRLEString(glider);
+      const result = game.outputRLE(shape.length, shape[0].length);
       expect(result).to.deep.equal("bob$2bo$3o!");
     })
 
@@ -65,8 +65,8 @@ bob$2bo$3o!`
 
     test("should return pattern in rle format including metadata", () => {
       const game = new GameOfLife();
-      game.parseRLEString(glider);
-      const result = game.outputFullRLE();
+      const shape = game.parseRLEString(glider);
+      const result = game.outputFullRLE(shape.length, shape[0].length);
       expect(result).to.deep.equal(glider);
     });
   })
