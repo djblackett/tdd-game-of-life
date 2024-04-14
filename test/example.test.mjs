@@ -1,6 +1,7 @@
 import { describe, test } from "vitest";
 import { expect } from "chai";
 import { GameOfLife } from "../src/GameOfLife";
+import { Board } from "../src/Board";
 
 
 const glider = `#N Glider
@@ -118,9 +119,16 @@ bob$2bo$3o!`
     ];
 
     const game = new GameOfLife();
+    // old code
     const board = game.generateBoard(5, 5);
     game.placeShape(board, shape, 1, 1);
     const nextGen = game.evolve(board);
+    // end old code
+
+    const board2 = new Board(5, 5);
+    board2.placeShape(shape, 1, 1);
+    board2.grid = game.evolve(board2.grid);
+    const result2 = board2.isolateShape(3, 3);
 
     const result = game.isolateShape(nextGen, 3, 3);
     console.log("NextGen:");
@@ -129,7 +137,7 @@ bob$2bo$3o!`
     console.table(result);
 
     const expected = [ [ 'o', 'b', 'o' ], [ 'b', 'o', 'o' ], [ 'b', 'o', 'b' ] ];
-    expect(result).to.deep.equal(expected);
+    expect(result2).to.deep.equal(expected);
   });
 
 
@@ -167,6 +175,7 @@ bob$2bo$3o!`
     expect(result).to.deep.equal(expected);
   });
 
+  // todo should do this without needing to specify the bounding box - find rectangle start and end dynamically
   test("should remove surrounding dead cells to isolate shape on board within its bounding box", () => {
 
     const board = [
