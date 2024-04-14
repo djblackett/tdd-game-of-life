@@ -12,7 +12,7 @@ export class GameOfLife {
       if (input) {
         return input.trim().replaceAll("\r", "");
       }
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       return null;
     }
@@ -82,7 +82,7 @@ export class GameOfLife {
         let char = this.startingShape[i][j];
         let char2 = this.startingShape[i][j + 1];
 
-        if ( char === char2){
+        if (char === char2) {
           isRun = true;
           count++;
         } else if (char !== char2 && isRun) {
@@ -117,20 +117,7 @@ export class GameOfLife {
     return board;
   }
 
-  placeShape(board: string[][], shape: string[][], row:number, col: number) {
-    try {
-      for (let i = 0; i < shape.length; i++) {
-        for (let j = 0; j < shape[0].length; j++) {
-          board[i + row][j + col] = shape[i][j];
-        }
-      }
-      return board;
-    } catch (e) {
-      console.error("Shape cannot be placed at that board location")
-    }
-  }
-
-    evolve(currentBoard: Board, height: number, width: number) {
+  evolve(currentBoard: Board, height: number, width: number) {
     const newBoard: string[][] = structuredClone(currentBoard.grid);
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
@@ -141,9 +128,7 @@ export class GameOfLife {
 
         if (char === "o" && livingNeighbors === 2 || livingNeighbors === 3) {
           newBoard[i][j] = "o";
-        }
-
-        else if (char === "b" && livingNeighbors === 3) {
+        } else if (char === "b" && livingNeighbors === 3) {
           newBoard[i][j] = "o";
         } else {
           newBoard[i][j] = "b";

@@ -148,7 +148,7 @@ bob$2bo$3o!`
 
   test("should place starting shape on board starting at given row and column", () => {
     const game = new GameOfLife()
-    const board = game.generateBoard(4, 4);
+    const board2 = new Board(4, 4);
 
     const shape  = [
       ["b", "o", "b"],
@@ -156,7 +156,7 @@ bob$2bo$3o!`
       ["o", "o", "o"]
     ];
 
-    const result = game.placeShape(board, shape, 0, 0);
+    const result = board2.placeShape(shape, 0, 0);
     const expected = [
       ["b", "o", "b", "b"],
       ["b", "b", "o", "b"],
