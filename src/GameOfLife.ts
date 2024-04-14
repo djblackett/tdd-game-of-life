@@ -194,10 +194,10 @@ export class GameOfLife {
     return num;
   }
 
-  evolve(currentBoard: string[][]) {
+  evolve(currentBoard: string[][], height: number, width: number) {
     const newBoard: string[][] = structuredClone(currentBoard);
-    for (let i = 0; i < this.height; i++) {
-      for (let j = 0; j < this.width; j++) {
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
         const char = currentBoard[i][j];
 
         // Need a non wrapping version for current test

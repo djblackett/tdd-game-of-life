@@ -20,6 +20,10 @@ export class Board {
     this.grid = board
   }
 
+  setGrid(grid: string[][]) {
+    this.grid = grid;
+  }
+
   placeShape(shape: string[][], row: number, col: number) {
     try {
       for (let i = 0; i < shape.length; i++) {
