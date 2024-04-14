@@ -1,4 +1,5 @@
 import fs from "node:fs/promises"
+import { Board } from "./Board";
 export class GameOfLife {
   width = -1;
   height = -1;
@@ -194,14 +195,15 @@ export class GameOfLife {
     return num;
   }
 
-  evolve(currentBoard: string[][], height: number, width: number) {
-    const newBoard: string[][] = structuredClone(currentBoard);
+  // evolve(currentBoard: string[][], height: number, width: number) {
+    evolve(currentBoard: Board, height: number, width: number) {
+    const newBoard: string[][] = structuredClone(currentBoard.grid);
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
-        const char = currentBoard[i][j];
+        const char = currentBoard.grid[i][j];
 
         // Need a non wrapping version for current test
-        const livingNeighbors = this.calculateLivingNeighbors(this.getNeighbors(currentBoard, i, j));
+        const livingNeighbors = currentBoard.calculateLivingNeighbors(currentBoard.getNeighbors(currentBoard.grid, i, j));
 
         if (char === "o" && livingNeighbors === 2 || livingNeighbors === 3) {
           newBoard[i][j] = "o";

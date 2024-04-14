@@ -123,14 +123,14 @@ bob$2bo$3o!`
 
     const game = new GameOfLife();
     // old code
-    const board = game.generateBoard(5, 5);
+    // const board = game.generateBoard(5, 5);
     // game.placeShape(board, shape, 1, 1);
     // const nextGen = game.evolve(board, HEIGHT, WIDTH);
     // end old code
 
     const board2 = new Board(5, 5);
     board2.placeShape(shape, 1, 1);
-    board2.setGrid(game.evolve(board2.grid, HEIGHT, WIDTH));
+    board2.setGrid(game.evolve(board2, HEIGHT, WIDTH));
     const result2 = board2.isolateShape(3, 3);
 
     // const result = game.isolateShape(nextGen, 3, 3);
