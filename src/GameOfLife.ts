@@ -167,35 +167,6 @@ export class GameOfLife {
     return count;
   }
 
-
-  getNeighbors(shape: string[][], r: number, c: number) {
-    const neighbors = [];
-
-    for (let i = r - 1; i < r + 2; i++) {
-      for (let j = c - 1; j < c + 2; j++) {
-        if (i === r && j === c
-          // || i < 0 || i >= this.height || j < 0 || j > this.width
-        ) {
-          continue;
-        }
-        // neighbors.push(shape[i][j]);
-        neighbors.push(shape[this.wrapCoordinates(i, this.height)][this.wrapCoordinates(j, this.width)]);
-      }
-    }
-    return neighbors;
-  }
-
-  wrapCoordinates(num: number, size: number) {
-    if (num < 0) {
-      return size - 1;
-    }
-    if (num >= size) {
-      return 0;
-    }
-    return num;
-  }
-
-  // evolve(currentBoard: string[][], height: number, width: number) {
     evolve(currentBoard: Board, height: number, width: number) {
     const newBoard: string[][] = structuredClone(currentBoard.grid);
     for (let i = 0; i < height; i++) {

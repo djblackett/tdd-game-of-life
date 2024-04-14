@@ -76,9 +76,9 @@ bob$2bo$3o!`
       ["o", "o", "o"]
     ];
 
-    const game = new GameOfLife()
-    game.parseRLEString(glider);
-    const result = game.getNeighbors(shape, 1, 1);
+    const board = new Board(3, 3);
+    board.placeShape(shape, 0, 0)
+    const result = board.getNeighbors(shape, 1, 1);
 
     // assuming middle cell
     const expected = ["b", "o", "b", "b", "o", "o", "o", "o"];
@@ -101,9 +101,9 @@ bob$2bo$3o!`
       ["o", "o", "o"]
     ];
 
-    const game = new GameOfLife()
-    game.parseRLEString(glider);
-    const result = game.getNeighbors(shape, 1, 2);
+    const board = new Board(3, 3);
+    board.placeShape(shape, 0, 0)
+    const result = board.getNeighbors(shape, 1, 2);
     const expected = ["o", "b", "b", "b", "b", "o", "o", "o"];
 
     expect(result).to.deep.equal(expected);
@@ -122,24 +122,12 @@ bob$2bo$3o!`
     const WIDTH = 5
 
     const game = new GameOfLife();
-    // old code
-    // const board = game.generateBoard(5, 5);
-    // game.placeShape(board, shape, 1, 1);
-    // const nextGen = game.evolve(board, HEIGHT, WIDTH);
-    // end old code
-
     const board2 = new Board(5, 5);
     board2.placeShape(shape, 1, 1);
     board2.setGrid(game.evolve(board2, HEIGHT, WIDTH));
     const result2 = board2.isolateShape(3, 3);
-
-    // const result = game.isolateShape(nextGen, 3, 3);
-    // console.log("NextGen:");
-    // console.table(nextGen)
-    // console.log("Result:");
-    // console.table(result);
-
     const expected = [ [ 'o', 'b', 'o' ], [ 'b', 'o', 'o' ], [ 'b', 'o', 'b' ] ];
+
     expect(result2).to.deep.equal(expected);
   });
 
