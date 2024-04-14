@@ -14,9 +14,10 @@ export class GameOfLife {
       if (input) {
         return input.trim().replaceAll("\r", "");
       }
+      throw new Error()
     } catch (e) {
       console.error(e);
-      return null;
+      throw new Error("Error reading RLE file!")
     }
   }
 
@@ -152,8 +153,13 @@ export class GameOfLife {
     const shape = this.parseRLEString(inputPattern);
     const boundingBox = this.getBoundingBoxAfterGenerations(shape, generations)
     const patternString = this.outputRLE(boundingBox, shape.length, shape[0].length);
-    const structure = this.metadata.length > 1 ? this.metadata[this.metadata.length - 1] : this.metadata[0]
-    return  structure + "\n" + patternString
+    // const structure = this.metadata.length > 1 ? this.metadata[this.metadata.length - 1] : this.metadata[0]
+    return  this.metadata.join("\n") + "\n" + patternString
+  }
+
+  async readAndOutputGeneration(filepath: string, generations: number) {
+    const inputString = GameOfLife.readFile(filepath);
+    return this.getFullOutputAfterGenerations(await inputString, generations);
   }
 
 

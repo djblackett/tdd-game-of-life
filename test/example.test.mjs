@@ -247,6 +247,19 @@ bob$2bo$3o!`
       expect(result).to.deep.equal(expected);
     })
 
+    test("should read full RLE from file and output full RLE with metadata", async () => {
+      const game = new GameOfLife();
+      const expected = "#N Glider\n" +
+        "#O Richard K. Guy\n" +
+        "#C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.\n" +
+        "#C www.conwaylife.com/wiki/index.php?title=Glider\n" +
+        "x = 3, y = 3, rule = B3/S23\n" +
+        "o2b$b2o$2ob!"
+
+      const result = await game.readAndOutputGeneration("test/glider.rle", 3);
+      expect(result).toEqual(expected);
+    })
+
 
 
 
