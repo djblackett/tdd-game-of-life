@@ -104,19 +104,6 @@ export class GameOfLife {
     return str;
   }
 
-  generateBoard(row: number, col: number) {
-    const board: string[][] = []
-    for (let i = 0; i < row; i++) {
-      board[i] = [];
-      for (let j = 0; j < col; j++) {
-        board[i][j] = "b";
-      }
-    }
-    this.height = board.length;
-    this.width = board[0].length;
-    return board;
-  }
-
   evolve(currentBoard: Board, height: number, width: number) {
     const newBoard: string[][] = structuredClone(currentBoard.grid);
     for (let i = 0; i < height; i++) {

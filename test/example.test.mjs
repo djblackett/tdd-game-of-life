@@ -133,8 +133,7 @@ bob$2bo$3o!`
 
 
   test("should generate game board full of 'dead' cells", () => {
-    const game = new GameOfLife();
-    const expected = game.generateBoard(10, 12)
+    const expected = new Board(10, 12).grid;
 
     const board = []
     for (let i = 0; i < 10; i++) {
