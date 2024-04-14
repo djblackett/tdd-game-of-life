@@ -1,5 +1,6 @@
-import fs from "node:fs/promises"
+import fs from "node:fs/promises";
 import { Board } from "./Board";
+
 export class GameOfLife {
   width = -1;
   height = -1;
@@ -70,6 +71,8 @@ export class GameOfLife {
       }
       this.startingShape = tempGrid;
       return tempGrid;
+    } else {
+      throw new Error("RLE string could not be parsed");
     }
   }
 
@@ -127,8 +130,7 @@ export class GameOfLife {
     return newBoard
   }
 
-  getOutputAfterGenerations(inputPattern: string, generations: number) {
-    const shape = this.parseRLEString(inputPattern) as string[][];
+  getBoundingBoxAfterGenerations(shape: string[][], generations: number) {
     const height = shape.length + generations + 3
     const width = shape[0].length + generations + 3
     const board = new Board(height, width);
@@ -137,15 +139,23 @@ export class GameOfLife {
     for (let i = 0; i < generations; i++) {
       board.setGrid(this.evolve(board, height, width));
     }
+    return board.isolateShape(shape.length, shape[0].length);
+  }
 
-    const boundingBox = board.isolateShape(shape.length, shape[0].length)
-    // this.startingShape = boundingBox;
-    console.table(boundingBox)
+  getOutputAfterGenerations(inputPattern: string, generations: number) {
+    const shape = this.parseRLEString(inputPattern);
+    const boundingBox = this.getBoundingBoxAfterGenerations(shape, generations)
+    return  this.outputRLE(boundingBox, shape.length, shape[0].length)
+  }
+
+  getFullOutputAfterGenerations(inputPattern: string, generations: number) {
+    const shape = this.parseRLEString(inputPattern);
+    const boundingBox = this.getBoundingBoxAfterGenerations(shape, generations)
     const patternString = this.outputRLE(boundingBox, shape.length, shape[0].length);
     const structure = this.metadata.length > 1 ? this.metadata[this.metadata.length - 1] : this.metadata[0]
-    console.log(structure);
-    return  patternString
-
+    return  structure + "\n" + patternString
   }
+
+
 }
 

@@ -234,6 +234,19 @@ bob$2bo$3o!`
       expect(result).to.deep.equal(expected);
     })
 
+    test("should return RLE string with metadata after 3 generations", () => {
+
+      const game1 = new GameOfLife()
+      const expected = "x = 3, y = 3, rule = B3/S23\n" +
+        "o2b$b2o$2ob!"
+
+      const inputPattern = "x = 3, y = 3, rule = B3/S23\n" + "bob$2bo$3o!"
+      const numberOfGenerations = 3
+      const result = game1.getFullOutputAfterGenerations(inputPattern, numberOfGenerations);
+      console.log(game1);
+      expect(result).to.deep.equal(expected);
+    })
+
 
 
 
