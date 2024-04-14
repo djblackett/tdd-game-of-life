@@ -224,9 +224,8 @@ bob$2bo$3o!`
       expect(result).to.deep.equal(expected);
     })
 
-    test.skip("should return RLE string after 3 generations", () => {
-      const expected = "x = 3, y = 3, rule = B3/S23\n" +
-        "o2b$b2o$2ob!\n"
+    test("should return RLE string after 3 generations", () => {
+      const expected = "o2b$b2o$2ob!"
 
       const inputPattern = "bob$2bo$3o!"
       const numberOfGenerations = 3
@@ -234,6 +233,8 @@ bob$2bo$3o!`
 
       expect(result).to.deep.equal(expected);
     })
+
+
 
 
 

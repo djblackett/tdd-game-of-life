@@ -4,6 +4,7 @@ export class GameOfLife {
   width = -1;
   height = -1;
   metadata: string[] = []
+
   startingShape = [[""]];
 
   static async readFile(url: string) {
@@ -138,9 +139,12 @@ export class GameOfLife {
     }
 
     const boundingBox = board.isolateShape(shape.length, shape[0].length)
-    this.startingShape = boundingBox;
-    console.table(this.startingShape)
-    return this.outputRLE(shape, shape.length, shape[0].length);
+    // this.startingShape = boundingBox;
+    console.table(boundingBox)
+    const patternString = this.outputRLE(boundingBox, shape.length, shape[0].length);
+    const structure = this.metadata.length > 1 ? this.metadata[this.metadata.length - 1] : this.metadata[0]
+    console.log(structure);
+    return  patternString
 
   }
 }
