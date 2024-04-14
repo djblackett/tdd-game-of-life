@@ -68,6 +68,7 @@ export class GameOfLife {
         tempGrid[row] = str.split("");
       }
       this.startingShape = tempGrid;
+      return tempGrid;
     }
   }
 
@@ -122,8 +123,25 @@ export class GameOfLife {
         }
       }
     }
-    console.table(newBoard)
     return newBoard
+  }
+
+  getOutputAfterGenerations(inputPattern: string, generations: number) {
+    const shape = this.parseRLEString(inputPattern) as string[][];
+    const height = shape.length + generations + 3
+    const width = shape[0].length + generations + 3
+    const board = new Board(height, width);
+    board.placeShape(shape, 0, 0)
+
+    for (let i = 0; i < generations; i++) {
+      board.setGrid(this.evolve(board, height, width));
+    }
+
+    const boundingBox = board.isolateShape(shape.length, shape[0].length)
+    this.startingShape = boundingBox;
+    console.table(this.startingShape)
+    return this.outputRLE();
+
   }
 }
 

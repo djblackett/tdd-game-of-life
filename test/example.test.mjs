@@ -217,13 +217,25 @@ bob$2bo$3o!`
       board.setGrid(game.evolve(board, HEIGHT, WIDTH));
       board.setGrid(game.evolve(board, HEIGHT, WIDTH));
       board.setGrid(game.evolve(board, HEIGHT, WIDTH));
-      // board.setGrid(game.evolve(board, HEIGHT, WIDTH));
 
       const result = board.isolateShape(3, 3);
-      const expected = [["o", "b", "b"], ["b", "o", "o"], ["o", "o", "b"]] // need shape
+      const expected = [["o", "b", "b"], ["b", "o", "o"], ["o", "o", "b"]]
 
       expect(result).to.deep.equal(expected);
     })
+
+    test.skip("should return RLE string after 3 generations", () => {
+      const expected = "x = 3, y = 3, rule = B3/S23\n" +
+        "o2b$b2o$2ob!\n"
+
+      const inputPattern = "bob$2bo$3o!"
+      const numberOfGenerations = 3
+      const result = game.getOutputAfterGenerations(inputPattern, numberOfGenerations);
+
+      expect(result).to.deep.equal(expected);
+    })
+
+
 
 
   })
