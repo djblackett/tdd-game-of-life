@@ -157,16 +157,6 @@ export class GameOfLife {
     return result;
   }
 
-  calculateLivingNeighbors(neighbors: string[]) {
-    let count = 0;
-    for (let i of neighbors) {
-      if (i === "o") {
-        count++;
-      }
-    }
-    return count;
-  }
-
     evolve(currentBoard: Board, height: number, width: number) {
     const newBoard: string[][] = structuredClone(currentBoard.grid);
     for (let i = 0; i < height; i++) {

@@ -89,8 +89,8 @@ bob$2bo$3o!`
 
   test("should calculate number of living neighbors", () => {
     const neighbors = ["b", "o", "b", "b", "o", "o", "o", "o"];
-    const game = new GameOfLife()
-    const result = game.calculateLivingNeighbors(neighbors);
+    const board = new Board(1, 1)
+    const result = board.calculateLivingNeighbors(neighbors);
     expect(result).toEqual(5);
   })
 
