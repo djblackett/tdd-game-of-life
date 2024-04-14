@@ -130,33 +130,6 @@ export class GameOfLife {
     }
   }
 
-  isolateShape(board: string[][], shapeHeight: number, shapeWidth: number) {
-    let iStart = 1000;
-    let jStart = 1000;
-
-    for (let i = 0; i < board.length; i++) {
-      for (let j = 0; j < board[0].length; j++) {
-        if (board[i][j] === "o") {
-          if (i < iStart) {
-            iStart = i;
-          }
-          if (j < jStart) {
-            jStart = j;
-          }
-        }
-      }
-    }
-    const result = [];
-    for (let i = iStart; i < iStart + shapeHeight; i++) {
-      const row = [];
-      for (let j = jStart; j < jStart + shapeWidth; j++) {
-        row.push(board[i][j]);
-      }
-      result.push(row);
-    }
-    return result;
-  }
-
     evolve(currentBoard: Board, height: number, width: number) {
     const newBoard: string[][] = structuredClone(currentBoard.grid);
     for (let i = 0; i < height; i++) {

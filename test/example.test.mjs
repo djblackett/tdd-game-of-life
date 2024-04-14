@@ -169,7 +169,7 @@ bob$2bo$3o!`
   // todo should do this without needing to specify the bounding box - find rectangle start and end dynamically
   test("should remove surrounding dead cells to isolate shape on board within its bounding box", () => {
 
-    const board = [
+    const grid = [
       ["b", "b", "b", "b", "b"],
       ["b", "b", "o", "b", "b"],
       ["b", "b", "b", "o", "b"],
@@ -177,8 +177,9 @@ bob$2bo$3o!`
       ["b", "b", "b", "b", "b"]
     ];
 
-    const game = new GameOfLife();
-    const result = game.isolateShape(board, 3, 3);
+    const board = new Board(5, 5);
+    board.setGrid(grid);
+    const result = board.isolateShape(3, 3);
 
     const expected = [
       ["b", "o", "b"],
