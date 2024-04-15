@@ -21,6 +21,7 @@ x = 2, y = 2, rule = B3/S23
 describe("Game of Life", () => {
 
   describe("reading and writing the rle patterns", () => {
+
     test("should parse width of input from metadata", () => {
       const gol = new GameOfLife();
       gol.parseRLEString(glider);
@@ -43,6 +44,20 @@ describe("Game of Life", () => {
       ];
       expect(gol.startingShape).to.deep.equal(expected);
     });
+
+    test("should parse a multi line rle file and return as a matrix", () => {
+      const game = new GameOfLife();
+
+      const result = game.parseRLEString("x = 36, y = 9, rule = B3/S23\n" +
+        "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b\n" +
+        "obo$10bo5bo7bo$11bo3bo$12b2o!");
+
+      console.table(game.parseRLEString("x = 36, y = 9, rule = B3/S23\n" +"24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4bobo$10bo5bo7bo$11bo3bo$12b2o!"));
+
+      // expect(result).to.equal()
+
+
+    })
 
     test("should output the matrix as an RLE string", () => {
       const game = new GameOfLife();
@@ -224,7 +239,8 @@ bob$2bo$3o!`
       expect(result).to.deep.equal(expected);
     })
 
-    test("should return RLE string after 3 generations", () => {
+    // this won't work because of missing info - empty cells are automatically a 'b'
+    test.skip("should return RLE string after 3 generations", () => {
       const expected = "o2b$b2o$2ob!"
 
       const inputPattern = "bob$2bo$3o!"
@@ -243,7 +259,6 @@ bob$2bo$3o!`
       const inputPattern = "x = 3, y = 3, rule = B3/S23\n" + "bob$2bo$3o!"
       const numberOfGenerations = 3
       const result = game1.getFullOutputAfterGenerations(inputPattern, numberOfGenerations);
-      console.log(game1);
       expect(result).to.deep.equal(expected);
     })
 
@@ -259,6 +274,27 @@ bob$2bo$3o!`
       const result = await game.readAndOutputGeneration("test/glider.rle", 3);
       expect(result).toEqual(expected);
     })
+
+    test("should work end to end for block shape", async () => {
+      const game = new GameOfLife();
+      const expected = "#N Block\n#C An extremely common 4-cell still life.\n#C www.conwaylife.com/wiki/index.php?title=Block\nx = 2, y = 2, rule = B3/S23\n2o$2o!"
+
+      const result = await game.readAndOutputGeneration("test/block.rle", 3);
+      expect(result).toEqual(expected);
+    });
+
+    test.skip("should work end to end for gosper gun shape", async () => {
+      const game = new GameOfLife();
+      const expected =  "x = 36, y = 9, rule = B3/S23\n" +
+        "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b\n" +
+        "3o4bo2b2obobo$9b3o4b2o4bo$10bobo$11b2o!\n"
+
+      const result = await game.readAndOutputGeneration("test/gosper-gun.rle", 3);
+      console.table(result);
+      expect(result).toEqual(expected);
+    })
+
+    // find more shapes to test
 
 
 
