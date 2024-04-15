@@ -24,7 +24,7 @@ export class GameOfLife {
   parseRLEString(input: string) {
     const lines = input.split("\n");
     let structure;
-    let data;
+    let data = ""
 
     for (let line of lines) {
       if (line.startsWith("#")) {
@@ -36,11 +36,12 @@ export class GameOfLife {
         this.metadata.push(line);
       }
 
-      if (line.endsWith("!")) {
-        data = line;
+      if (line.charAt(0).match(/[bo\d]/)) {
+        data += line;
       }
     }
 
+    console.log(data);
     const metaArr = structure?.split(",");
     let x;
     let y;
@@ -49,28 +50,45 @@ export class GameOfLife {
       y = metaArr[1].split("=")[1].trim();
     }
 
-    if (x && y) {
-      this.width = parseInt(x);
-      this.height = parseInt(y);
+
+    if (!x || !y) {
+       throw new Error("Data is missing")
     }
+
+    this.width = parseInt(x);
+    this.height = parseInt(y);
 
     if (data) {
       let lines = data.split("$");
-      let tempGrid = [];
+      let tempGrid: string[][] = [[""]];
 
       for (let row = 0; row < lines.length; row++) {
         let str = "";
+        let digits = ""
+        let isRun = false;
         for (let char = 0; char < lines[row].length; char++) {
+
+          // problem is here
           if (lines[row][char].match(/\d/)) {
-            str += lines[row][char + 1].repeat(parseInt(lines[row][char]));
-            char++;
+            isRun = true;
+            digits += lines[row][char];
+
+          } else if (!lines[row][char].match(/\d/) && isRun) {
+            isRun = false;
+            str += lines[row][char].repeat(parseInt(digits));
+            digits = "";
+            // char++;
           } else if (lines[row][char].match("[a-z]")) {
             str += lines[row][char];
           }
         }
-        tempGrid[row] = str.split("");
+        tempGrid[row] = str.padEnd(parseInt(x), "b").split("");
+        // console.log(tempGrid[row]);
       }
       this.startingShape = tempGrid;
+
+
+
       return tempGrid;
     } else {
       throw new Error("RLE string could not be parsed");
@@ -161,7 +179,5 @@ export class GameOfLife {
     const inputString = GameOfLife.readFile(filepath);
     return this.getFullOutputAfterGenerations(await inputString, generations);
   }
-
-
 }
 

@@ -17,6 +17,83 @@ const block = `#N Block
 x = 2, y = 2, rule = B3/S23
 2o$2o!`
 
+const gliderGunGrid =[
+  [
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'o', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b'
+  ],
+  [
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'o', 'b', 'o', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b'
+  ],
+  [
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'o', 'o',
+    'b', 'b', 'b', 'b', 'b', 'b', 'o',
+    'o', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'o',
+    'o'
+  ],
+  [
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'o', 'b', 'b',
+    'b', 'o', 'b', 'b', 'b', 'b', 'o',
+    'o', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'o',
+    'o'
+  ],
+  [
+    'o', 'o', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'o', 'b', 'b', 'b',
+    'b', 'b', 'o', 'b', 'b', 'b', 'o',
+    'o', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b'
+  ],
+  [
+    'o', 'o', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'o', 'b', 'b', 'b',
+    'o', 'b', 'o', 'o', 'b', 'b', 'b',
+    'b', 'o', 'b', 'o', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b'
+  ],
+  [
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'o', 'b', 'b', 'b',
+    'b', 'b', 'o', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'o', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b'
+  ],
+  [
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'o', 'b', 'b',
+    'b', 'o', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b'
+  ],
+  [
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'o', 'o',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b', 'b', 'b', 'b', 'b', 'b', 'b',
+    'b'
+  ]
+]
+
+
+
 
 describe("Game of Life", () => {
 
@@ -52,11 +129,7 @@ describe("Game of Life", () => {
         "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b\n" +
         "obo$10bo5bo7bo$11bo3bo$12b2o!");
 
-      console.table(game.parseRLEString("x = 36, y = 9, rule = B3/S23\n" +"24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4bobo$10bo5bo7bo$11bo3bo$12b2o!"));
-
-      // expect(result).to.equal()
-
-
+      expect(result).to.deep.equal(gliderGunGrid);
     })
 
     test("should output the matrix as an RLE string", () => {
