@@ -64,26 +64,44 @@ export class GameOfLife {
 
       for (let row = 0; row < lines.length; row++) {
         let str = "";
-        let digits = ""
+        let runDigits = "";
+        let endDigits = "";
         let isRun = false;
+
+        let endDigitMatcher = lines[row].match(/.+(\d+)$/)
+        if (endDigitMatcher) {
+          endDigits = endDigitMatcher[1];
+        }
+
+
         for (let char = 0; char < lines[row].length; char++) {
 
           // problem is here
           if (lines[row][char].match(/\d/)) {
             isRun = true;
-            digits += lines[row][char];
+            runDigits += lines[row][char];
 
           } else if (!lines[row][char].match(/\d/) && isRun) {
             isRun = false;
-            str += lines[row][char].repeat(parseInt(digits));
-            digits = "";
+            str += lines[row][char].repeat(parseInt(runDigits));
+            runDigits = "";
             // char++;
           } else if (lines[row][char].match("[a-z]")) {
             str += lines[row][char];
           }
         }
-        tempGrid[row] = str.padEnd(parseInt(x), "b").split("");
-        // console.log(tempGrid[row]);
+
+        let fullLine = str.padEnd(parseInt(x), "b");
+        tempGrid[row] = fullLine.split("");
+
+
+        if (endDigits) {
+          const digits = parseInt(endDigits);
+
+          for (let i = row; i < digits; i++) {
+            lines.splice(row, 0, fullLine);
+          }
+        }
       }
       this.startingShape = tempGrid;
 
@@ -239,4 +257,4 @@ async function play() {
   // console.log("height:", board.height);
 }
 
-play()
+// play()
