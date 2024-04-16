@@ -87,8 +87,6 @@ export class GameOfLife {
       }
       this.startingShape = tempGrid;
 
-
-
       return tempGrid;
     } else {
       throw new Error("RLE string could not be parsed");
@@ -129,12 +127,35 @@ export class GameOfLife {
   }
 
   removeTrailingDeadCells(rle: string) {
-
     const regex = /\d*b\$/g
     let fixedString = rle.replaceAll(regex, "$");
-    fixedString = fixedString.replaceAll(/\d*b!$/g, "!").replaceAll(/!\n/g, "!")
-    console.log(fixedString);
+    fixedString = fixedString.replaceAll(/\d*b!$/g, "!");
     return fixedString
+  }
+
+  addRepeatedLines(rle: string){
+    const arr = rle.split("$");
+    for (let i = 0; i < arr.length; i++) {
+      let matcher = arr[i].charAt(arr[i].length - 1).match("\d+")
+      if (matcher) {
+        arr[i] = (arr[i] + "$").repeat(parseInt(matcher[1]));
+        arr[i] = arr[i].substring(0, arr[i].length - 1)
+      }
+    }
+    return arr.join("$")
+  }
+
+  addRepeatedLinesGrid(arr: string[][]) {
+    for (let i = 0; i < arr.length; i++) {
+      let line = arr[i].join("")
+      let matcher = line.charAt(line.length - 1).match("\d+")
+      if (matcher) {
+        line = (line + "$").repeat(parseInt(matcher[1]));
+        line = line.substring(0, line.length - 1)
+        arr[i] = line.split("")
+      }
+    }
+    return arr.join("$")
   }
 
   evolve(currentBoard: Board, height: number, width: number) {
@@ -191,7 +212,7 @@ export class GameOfLife {
 
   outputGame() {
     const game = new GameOfLife();
-    const inputString = GameOfLife.readFile("test/gosper-gun.rle");
+    const inputString = GameOfLife.readFile("test/snark-loop.rle");
     const shape = this.parseRLEString(inputString);
     const board = new Board(9, 36);
     board.placeShape(shape, 0, 0)
@@ -209,7 +230,7 @@ async function play() {
   // console.log("height:", board.height);
 
   for (let i = 0; i < 5; i++) {
-      // console.table(board.grid);
+      console.table(board.grid);
       board.setGrid(game.evolve(board, 9, 36));
       await sleep(500)
   }
@@ -219,5 +240,3 @@ async function play() {
 }
 
 play()
-
-// WTF???
