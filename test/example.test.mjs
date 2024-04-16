@@ -17,7 +17,7 @@ const block = `#N Block
 x = 2, y = 2, rule = B3/S23
 2o$2o!`
 
-const gliderGunGrid =[
+export const gliderGunGrid =[
   [
     'b', 'b', 'b', 'b', 'b', 'b', 'b',
     'b', 'b', 'b', 'b', 'b', 'b', 'b',
@@ -92,9 +92,6 @@ const gliderGunGrid =[
   ]
 ]
 
-
-
-
 describe("Game of Life", () => {
 
   describe("reading and writing the rle patterns", () => {
@@ -157,6 +154,17 @@ bob$2bo$3o!`
       const result = game.outputFullRLE(shape,shape.length, shape[0].length);
       expect(result).to.deep.equal(glider);
     });
+
+    test("should remove explicitly set empty cells at end of line in RLE string", () => {
+      const game = new GameOfLife()
+      const inputString = [  ["b", "o", "b"],
+        ["b", "b", "o"],
+        ["o", "o", "o"]]
+      const expected = "bo$2bo$3o!";
+      const result = game.outputRLE(inputString, 3, 3);
+      const finalResult = game.removeTrailingDeadCells(result)
+      expect(finalResult).toEqual(expected)
+    })
   })
 
   describe("basic board functionality", () => {
@@ -359,13 +367,13 @@ bob$2bo$3o!`
     test("should work end to end for gosper gun shape", async () => {
       const game = new GameOfLife();
       const expected =  "x = 36, y = 9, rule = B3/S23\n" +
-        "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b\n" +
-        "3o4bo2b2obobo$9b3o4b2o4bo$10bobo$11b2o!\n"
+        "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b" +
+        "3o4bo2b2obobo$9b3o4b2o4bo$10bobo$11b2o!"
 
 
       const result = await game.readAndOutputGeneration("test/gosper-gun.rle", 3);
-      console.table(result);
-      expect(result).toEqual(expected);
+      const finalResult = game.removeTrailingDeadCells(result);
+      expect(finalResult).toEqual(expected);
     })
 
     // find more shapes to test

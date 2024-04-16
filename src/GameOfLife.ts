@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+import fs from "node:fs";
 import { Board } from "./Board";
 
 export class GameOfLife {
@@ -8,9 +8,9 @@ export class GameOfLife {
 
   startingShape = [[""]];
 
-  static async readFile(url: string) {
+  static readFile(url: string) {
     try {
-      const input = await fs.readFile(url, { encoding: 'utf8' })
+      const input = fs.readFileSync(url, { encoding: 'utf8' })
       if (input) {
         return input.trim().replaceAll("\r", "");
       }
@@ -41,7 +41,7 @@ export class GameOfLife {
       }
     }
 
-    console.log(data);
+    // console.log(data);
     const metaArr = structure?.split(",");
     let x;
     let y;
@@ -128,6 +128,15 @@ export class GameOfLife {
     return str;
   }
 
+  removeTrailingDeadCells(rle: string) {
+
+    const regex = /\d*b\$/g
+    let fixedString = rle.replaceAll(regex, "$");
+    fixedString = fixedString.replaceAll(/\d*b!$/g, "!").replaceAll(/!\n/g, "!")
+    console.log(fixedString);
+    return fixedString
+  }
+
   evolve(currentBoard: Board, height: number, width: number) {
     const newBoard: string[][] = structuredClone(currentBoard.grid);
     for (let i = 0; i < height; i++) {
@@ -177,7 +186,38 @@ export class GameOfLife {
 
   async readAndOutputGeneration(filepath: string, generations: number) {
     const inputString = GameOfLife.readFile(filepath);
-    return this.getFullOutputAfterGenerations(await inputString, generations);
+    return this.getFullOutputAfterGenerations(inputString, generations);
+  }
+
+  outputGame() {
+    const game = new GameOfLife();
+    const inputString = GameOfLife.readFile("test/gosper-gun.rle");
+    const shape = this.parseRLEString(inputString);
+    const board = new Board(9, 36);
+    board.placeShape(shape, 0, 0)
+    // console.log(board.grid);
+    return board;
   }
 }
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+async function play() {
+  const game = new GameOfLife()
+  const board = game.outputGame()
+  // console.log("width", board.width);
+  // console.log("height:", board.height);
+
+  for (let i = 0; i < 5; i++) {
+      // console.table(board.grid);
+      board.setGrid(game.evolve(board, 9, 36));
+      await sleep(500)
+  }
+
+  // console.log("width", board.width);
+  // console.log("height:", board.height);
+}
+
+play()
+
+// WTF???
