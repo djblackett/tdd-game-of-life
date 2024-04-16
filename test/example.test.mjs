@@ -129,6 +129,17 @@ describe("Game of Life", () => {
       expect(result).to.deep.equal(gliderGunGrid);
     })
 
+    test("should repeat lines when an rle line has a number at the end", () => {
+      const game = new GameOfLife();
+      const input = "x = 26, y = 6, rule = B3/S23\n" + "24bo$22o$5b7o3$2o!";
+      const expected = "x = 26, y = 6, rule = B3/S23\n" + "24bob$22o$5b7o$5b7o$5b7o$2o!"
+      const grid = game.parseRLEString(input);
+      let result = game.outputFullRLE(grid, grid.length, grid[0].length);
+      result = game.addRepeatedLines(result);
+      result = game.removeTrailingDeadCells(result)
+      expect(result).toEqual(expected)
+    })
+
     test("should output the matrix as an RLE string", () => {
       const game = new GameOfLife();
       const shape = game.parseRLEString(glider);
@@ -364,7 +375,7 @@ bob$2bo$3o!`
       expect(result).toEqual(expected);
     });
 
-    test("should work end to end for gosper gun shape", async () => {
+    test("should work end to end for gosper gun shape, 3 generations", async () => {
       const game = new GameOfLife();
       const expected =  "x = 36, y = 9, rule = B3/S23\n" +
         "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b" +
@@ -374,6 +385,32 @@ bob$2bo$3o!`
       const result = await game.readAndOutputGeneration("test/gosper-gun.rle", 3);
       const finalResult = game.removeTrailingDeadCells(result);
       expect(finalResult).toEqual(expected);
+    });
+
+    test.skip("should output correct rle for snark loop, 5 generations", async () => {
+      const game = new GameOfLife();
+      const expected = "x = 65, y = 65, rule = B3/S23\n" +
+        "27b2o$27bobo$29bo4b2o$25b4ob2o2bo2bo$25bo2bobobobob2o$28bobobobo$29b2o" +
+        "bobo$33bo2$19b2o$20bo7b2o$20bobo5b2o$21b2o3$35bobo$26b2o8b2o$25bobo8b" +
+        "o$27bo$31b2o22bo$31bo21b3o$32b3o17bo$34bo17b2o3$47bo12b2o$48bo12bo$3b" +
+        "2o10b2o29b3o12bob2o$4bo11b2o35b2o4b3o2bo$2bo12bo37b2o3bo3b2o$2b5o14b2o" +
+        "35b4o$7bo13bo22b2o15bo$4b3o12bobo21bobo12b3o$3bo15b2o22bo13bo$3b4o35b" +
+        "2o14b5o$b2o3bo3b2o37bo12bo$o2b3o4b2o35b2o11bo$2obo12b3o29b2o10b2o$3bo" +
+        "12bo$3b2o12bo3$11b2o17bo$12bo17b3o$9b3o21bo$9bo22b2o$37bo$28bo8bobo$27b" +
+        "2o8b2o$27bobo3$42b2o$35b2o5bobo$35b2o7bo$44b2o2$31bo$30bobob2o$30bobo" +
+        "bobo$27b2obobobobo2bo$27bo2bo2b2ob4o$29b2o4bo$35bobo$36b2o!"
+      const result = await game.readAndOutputGeneration("test/snark-loop.rle", 5);
+      const finalResult = game.removeTrailingDeadCells(result);
+      const reallyFinal = game.addRepeatedLines(finalResult)
+
+      const expectedLines = expected.split("$");
+      const finalResultLines = finalResult.split("$");
+
+
+      expect(expectedLines).to.deep.equal(finalResultLines);
+      console.log(expected.length);
+      console.log(finalResult.length);
+      expect(reallyFinal).toEqual(expected);
     })
 
     // find more shapes to test
