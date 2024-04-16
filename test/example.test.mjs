@@ -132,7 +132,7 @@ describe("Game of Life", () => {
     test("should repeat lines when an rle line has a number at the end", () => {
       const game = new GameOfLife();
       const input = "x = 26, y = 6, rule = B3/S23\n" + "24bo$22o$5b7o3$2o!";
-      const expected = "x = 26, y = 6, rule = B3/S23\n" + "24bob$22o$5b7o$5b7o$5b7o$2o!"
+      const expected = "x = 26, y = 6, rule = B3/S23\n" + "24bo$22o$5b7o$5b7o$5b7o$2o!"
       const grid = game.parseRLEString(input);
       let result = game.outputFullRLE(grid, grid.length, grid[0].length);
       result = game.addRepeatedLines(result);
@@ -387,7 +387,7 @@ bob$2bo$3o!`
       expect(finalResult).toEqual(expected);
     });
 
-    test.skip("should output correct rle for snark loop, 5 generations", async () => {
+    test("should output correct rle for snark loop, 5 generations", async () => {
       const game = new GameOfLife();
       const expected = "x = 65, y = 65, rule = B3/S23\n" +
         "27b2o$27bobo$29bo4b2o$25b4ob2o2bo2bo$25bo2bobobobob2o$28bobobobo$29b2o" +
@@ -415,7 +415,7 @@ bob$2bo$3o!`
 
     // find more shapes to test
 
-
+// need to check list for duplicates rows and then compress them and use the end digits
 
 
 
