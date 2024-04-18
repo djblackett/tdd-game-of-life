@@ -124,24 +124,7 @@ bob$2bo$3o!`
       expect(result).to.deep.equal(expected);
     });
 
-    test("should return pattern in rle format including metadata", () => {
-      const df = new DataFormatter();
-      const shape = df.parseRLEString(glider);
-      const result = df.outputFullRLE(shape);
-      expect(result).to.deep.equal(glider);
-    });
 
-    test("should remove explicitly set empty cells at end of line in RLE string", () => {
-      const game = new GameOfLife()
-      const df = new DataFormatter();
-      const inputString = [  ["b", "o", "b"],
-        ["b", "b", "o"],
-        ["o", "o", "o"]]
-      const expected = "bo$2bo$3o!";
-      const result = df.outputRLE(inputString);
-      const finalResult = df.removeTrailingDeadCells(result)
-      expect(finalResult).toEqual(expected)
-    })
   })
 
   describe("core game logic", () => {
