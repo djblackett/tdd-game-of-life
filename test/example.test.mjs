@@ -460,7 +460,7 @@ bob$2bo$3o!`
 // need to check list for duplicates rows and then compress them and use the end digits
 // do the numbers at the end actually mean a blank row is next?
 
-test.skip("blinker", async () => {
+test("blinker", async () => {
   const expected = "#N Blinker\n" +
     "#O John Conway\n" +
     "#C A period 2 oscillator that is the smallest and most common oscillator.\n" +

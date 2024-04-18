@@ -111,14 +111,14 @@ export class GameOfLife {
     }
   }
 
-  outputRLE(shape: string[][], height: number, width: number) {
+  outputRLE(shape: string[][]) {
     const charArr = [];
-    for (let i = 0; i < height; i++) {
+    for (let i = 0; i < shape.length; i++) {
       let str = "";
       let count = 1;
       let isRun = false;
 
-      for (let j = 0; j < width; j++) {
+      for (let j = 0; j < shape[0].length; j++) {
         let char = shape[i][j];
         let char2 = shape[i][j + 1];
 
@@ -140,7 +140,7 @@ export class GameOfLife {
 
   outputFullRLE(shape: string[][], height: number, width: number) {
     let str = this.metadata.join("\n");
-    str += "\n" + this.outputRLE(shape, height, width);
+    str += "\n" + this.outputRLE(shape);
     return str;
   }
 
@@ -229,13 +229,13 @@ export class GameOfLife {
   getOutputAfterGenerations(inputPattern: string, generations: number) {
     const shape = this.parseRLEString(inputPattern);
     const boundingBox = this.getBoundingBoxAfterGenerations(shape, generations)
-    return  this.outputRLE(boundingBox, shape.length, shape[0].length)
+    return  this.outputRLE(boundingBox)
   }
 
   getFullOutputAfterGenerations(inputPattern: string, generations: number) {
     const shape = this.parseRLEString(inputPattern);
     const boundingBox = this.getBoundingBoxAfterGenerations(shape, generations)
-    const patternString = this.outputRLE(boundingBox, shape.length, shape[0].length);
+    const patternString = this.outputRLE(boundingBox);
     // const structure = this.metadata.length > 1 ? this.metadata[this.metadata.length - 1] : this.metadata[0]
     return  this.metadata.join("\n") + "\n" + patternString
   }
