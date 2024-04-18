@@ -55,9 +55,6 @@ export class GameOfLife {
        throw new Error("Data is missing")
     }
 
-    this.width = parseInt(x);
-    this.height = parseInt(y);
-
     if (data) {
       let lines = data.split(/[$\n]/);
       let tempGrid: string[][] = [[""]];
@@ -103,8 +100,6 @@ export class GameOfLife {
           }
         }
       }
-      this.startingShape = tempGrid;
-
       return tempGrid;
     } else {
       throw new Error("RLE string could not be parsed");
