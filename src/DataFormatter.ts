@@ -1,5 +1,6 @@
 
 export class DataFormatter {
+  metadata: string[] = []
 
   parseRLEString(input: string) {
     const lines = input.split("\n");
@@ -9,12 +10,12 @@ export class DataFormatter {
 
     for (let line of lines) {
       if (line.startsWith("#")) {
-        metadata.push(line);
+        this.metadata.push(line);
       }
 
       if (line.startsWith("x")) {
         structure = line;
-        metadata.push(line);
+        this.metadata.push(line);
       }
 
       if (line.charAt(0).match(/[bo\d]/)) {
@@ -115,11 +116,11 @@ export class DataFormatter {
   }
 
   // todo - need metadata from argument
-  // outputFullRLE(shape: string[][]) {
-  //   let str = this.metadata.join("\n");
-  //   str += "\n" + this.outputRLE(shape);
-  //   return str;
-  // }
+  outputFullRLE(shape: string[][]) {
+    let str = this.metadata.join("\n");
+    str += "\n" + this.outputRLE(shape);
+    return str;
+  }
 
   removeTrailingDeadCells(rle: string) {
     const regex = /\d*b\$/g
@@ -168,4 +169,5 @@ export class DataFormatter {
     }
     return arr.join("$")
   }
+
 }
