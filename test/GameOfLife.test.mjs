@@ -295,19 +295,21 @@ bob$2bo$3o!`
 
     test("should work end to end for gosper gun shape, 3 generations", async () => {
       const game = new GameOfLife();
+      const df = new DataFormatter();
       const expected =  "x = 36, y = 9, rule = B3/S23\n" +
         "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b" +
         "3o4bo2b2obobo$9b3o4b2o4bo$10bobo$11b2o!"
 
 
       const result = await game.readAndOutputGeneration("test/gosper-gun.rle", 3);
-      const finalResult = game.removeTrailingDeadCells(result);
+      const finalResult = df.removeTrailingDeadCells(result);
       expect(finalResult).toEqual(expected);
     });
 
     // come back to this later
     test.skip("should output correct rle for snark loop, 1 generation", async () => {
       const game = new GameOfLife();
+      const df = new DataFormatter();
       const expected = "x = 65, y = 65, rule = B3/S23\n" +
         "27b2o$27bobo$29bo4b2o$25b4ob2o2bo2bo$25bo2bobobobob2o$28bobobobo$29b2o" +
         "bobo$33bo2$19b2o$20bo7b2o$20bobo5b2o$21b2o3$35bobo$26b2o8b2o$25bobo8b" +
@@ -322,7 +324,7 @@ bob$2bo$3o!`
       const result = await game.readAndOutputGeneration("test/snark-loop.rle", 1);
       console.log("Result:");
       console.log(result.split("$"));
-      const finalResult = game.removeTrailingDeadCells(result);
+      const finalResult = df.removeTrailingDeadCells(result);
       // console.log(finalResult);
       // const reallyFinal = game.addRepeatedLines(finalResult)
       const result1 = game.compressRepeatedLines(finalResult);
@@ -344,6 +346,7 @@ bob$2bo$3o!`
 // do the numbers at the end actually mean a blank row is next?
 
 test("blinker", async () => {
+  const df = new DataFormatter();
   const expected = "#N Blinker\n" +
     "#O John Conway\n" +
     "#C A period 2 oscillator that is the smallest and most common oscillator.\n" +
@@ -352,7 +355,7 @@ test("blinker", async () => {
     "o$o$o!";
 
   const result = await game.readAndOutputGeneration("test/blinker.rle", 1);
-  const finalResult = game.removeTrailingDeadCells(result);
+  const finalResult = df.removeTrailingDeadCells(result);
   expect(finalResult).toEqual(expected);
 });
   })

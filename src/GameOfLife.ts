@@ -19,12 +19,12 @@ export class GameOfLife {
     }
   }
 
-  removeTrailingDeadCells(rle: string) {
-    const regex = /\d*b\$/g
-    let fixedString = rle.replaceAll(regex, "$");
-    fixedString = fixedString.replaceAll(/\d*b!$/g, "!");
-    return fixedString
-  }
+  // removeTrailingDeadCells(rle: string) {
+  //   const regex = /\d*b\$/g
+  //   let fixedString = rle.replaceAll(regex, "$");
+  //   fixedString = fixedString.replaceAll(/\d*b!$/g, "!");
+  //   return fixedString
+  // }
 
   evolve(currentBoard: Board, height: number, width: number) {
     const newBoard: string[][] = structuredClone(currentBoard.grid);
