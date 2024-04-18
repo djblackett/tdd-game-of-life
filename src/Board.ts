@@ -37,9 +37,12 @@ export class Board {
     }
   }
 
-  isolateShape(shapeHeight: number, shapeWidth: number) {
+  // todo shapeHeight and shapeWidth can change after generations
+  isolateShape() {
     let iStart = 1000;
+    let iEnd = -1
     let jStart = 1000;
+    let jEnd = -1
 
     for (let i = 0; i < this.grid.length; i++) {
       for (let j = 0; j < this.grid[0].length; j++) {
@@ -47,20 +50,27 @@ export class Board {
           if (i < iStart) {
             iStart = i;
           }
+          if (i > iEnd) {
+            iEnd = i;
+          }
           if (j < jStart) {
             jStart = j;
+          }
+          if (j > jEnd) {
+            jEnd = j;
           }
         }
       }
     }
     const result = [];
-    for (let i = iStart; i < iStart + shapeHeight; i++) {
+    for (let i = iStart; i <= iEnd; i++) {
       const row = [];
-      for (let j = jStart; j < jStart + shapeWidth; j++) {
+      for (let j = jStart; j <= jEnd; j++) {
         row.push(this.grid[i][j]);
       }
       result.push(row);
     }
+    console.log(result);
     return result;
   }
 
@@ -86,7 +96,13 @@ export class Board {
           continue;
         }
         // neighbors.push(shape[i][j]);
-        neighbors.push(shape[this.wrapCoordinates(i, this.height)][this.wrapCoordinates(j, this.width)]);
+        try {
+          neighbors.push(shape[this.wrapCoordinates(i, this.height)][this.wrapCoordinates(j, this.width)]);
+          // neighbors.push(shape[i][j]);
+        } catch(e) {
+          // temp idea
+          throw new Error("Shape cannot evolve while in this position. Increase board size or move shape");
+        }
       }
     }
     return neighbors;
