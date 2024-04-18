@@ -1,6 +1,20 @@
+import fs from "node:fs";
 
 export class DataFormatter {
   metadata: string[] = []
+
+  static readFile(url: string) {
+    try {
+      const input = fs.readFileSync(url, { encoding: 'utf8' })
+      if (input) {
+        return input.trim().replaceAll("\r", "");
+      }
+      throw new Error()
+    } catch (e) {
+      console.error(e);
+      throw new Error("Error reading RLE file!")
+    }
+  }
 
   parseRLEString(input: string) {
     const lines = input.split("\n");

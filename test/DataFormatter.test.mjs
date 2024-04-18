@@ -51,7 +51,7 @@ describe("reading and writing the rle patterns", () => {
     const input = "x = 26, y = 6, rule = B3/S23\n" + "24bo$22o$5b7o3$2o!";
     const expected = "x = 26, y = 6, rule = B3/S23\n" + "24bo$22o$5b7o3$2o!"
     const grid = df.parseRLEString(input);
-    let result = df.outputFullRLE(grid, grid.length, grid[0].length);
+    let result = df.outputFullRLE(grid);
     result = df.addRepeatedLines(result);
     result = df.removeTrailingDeadCells(result)
     result = df.compressRepeatedLines(result)

@@ -120,7 +120,7 @@ describe("Game of Life", () => {
 x = 3, y = 3, rule = B3/S23
 bob$2bo$3o!`
 
-      const result = GameOfLife.readFile("test/glider.rle");
+      const result = DataFormatter.readFile("test/glider.rle");
       expect(result).to.deep.equal(expected);
     });
 

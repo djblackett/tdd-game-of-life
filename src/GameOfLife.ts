@@ -3,21 +3,6 @@ import { Board } from "./Board";
 import { DataFormatter } from "./DataFormatter";
 
 export class GameOfLife {
-  width = -1;
-  height = -1;
-
-  static readFile(url: string) {
-    try {
-      const input = fs.readFileSync(url, { encoding: 'utf8' })
-      if (input) {
-        return input.trim().replaceAll("\r", "");
-      }
-      throw new Error()
-    } catch (e) {
-      console.error(e);
-      throw new Error("Error reading RLE file!")
-    }
-  }
 
   evolve(currentBoard: Board, height: number, width: number) {
     const newBoard: string[][] = structuredClone(currentBoard.grid);
@@ -70,13 +55,13 @@ export class GameOfLife {
   }
 
   async readAndOutputGeneration(filepath: string, generations: number) {
-    const inputString = GameOfLife.readFile(filepath);
+    const inputString = DataFormatter.readFile(filepath);
     return this.getFullOutputAfterGenerations(inputString, generations);
   }
 
   outputGame() {
     const df = new DataFormatter()
-    const inputString = GameOfLife.readFile("test/blinker.rle");
+    const inputString = DataFormatter.readFile("test/blinker.rle");
     const shape = df.parseRLEString(inputString);
     const board = new Board(9, 9);
     board.placeShape(shape, 2, 2)
