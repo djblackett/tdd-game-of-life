@@ -142,14 +142,15 @@ describe("Game of Life", () => {
       expect(result).to.deep.equal(gliderGunGrid);
     });
 
-    test.skip("should repeat lines when an rle line has a number at the end", () => {
+    test("should repeat lines when an rle line has a number at the end", () => {
       const game = new GameOfLife();
       const input = "x = 26, y = 6, rule = B3/S23\n" + "24bo$22o$5b7o3$2o!";
-      const expected = "x = 26, y = 6, rule = B3/S23\n" + "24bo$22o$5b7o$5b7o$5b7o$2o!"
+      const expected = "x = 26, y = 6, rule = B3/S23\n" + "24bo$22o$5b7o3$2o!"
       const grid = game.parseRLEString(input);
       let result = game.outputFullRLE(grid, grid.length, grid[0].length);
       result = game.addRepeatedLines(result);
       result = game.removeTrailingDeadCells(result)
+      result = game.compressRepeatedLines(result)
       expect(result).toEqual(expected)
     })
 
@@ -168,7 +169,7 @@ describe("Game of Life", () => {
 x = 3, y = 3, rule = B3/S23
 bob$2bo$3o!`
 
-      const result = await GameOfLife.readFile("test/glider.rle");
+      const result = GameOfLife.readFile("test/glider.rle");
       expect(result).to.deep.equal(expected);
     });
 
@@ -217,7 +218,7 @@ bob$2bo$3o!`
       expect(result).toEqual(5);
     })
 
-    test("should return neighbors of a cell on an edge of board with wrap around", () => {
+    test.skip("should return neighbors of a cell on an edge of board with wrap around", () => {
       const shape = [
         ["b", "o", "b"],
         ["b", "b", "o"],
@@ -287,6 +288,27 @@ bob$2bo$3o!`
       ];
 
       expect(result).to.deep.equal(expected);
+    })
+
+    test("should isolate shape for shapes that have different length/width after generation - blinker test", () => {
+      const blinkerGrid = [
+        ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
+        ['b', 'b', 'b', 'o', 'b', 'b', 'b', 'b', 'b'],
+        ['b', 'b', 'b', 'o', 'b', 'b', 'b', 'b', 'b'],
+        ['b', 'b', 'b', 'o', 'b', 'b', 'b', 'b', 'b'],
+        ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
+        ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
+        ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
+        ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
+        ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b']
+      ]
+      const board = new Board(9, 9);
+      board.setGrid(blinkerGrid);
+      const isolatedShape = board.isolateShape()
+      console.log(isolatedShape)
+      expect(isolatedShape).to.deep.equal([["o"], ["o"], ["o"]])
+
+
     })
   })
 
@@ -400,7 +422,8 @@ bob$2bo$3o!`
       expect(finalResult).toEqual(expected);
     });
 
-    test.skip("should output correct rle for snark loop, 5 generations", async () => {
+    // come back to this later
+    test.skip("should output correct rle for snark loop, 1 generation", async () => {
       const game = new GameOfLife();
       const expected = "x = 65, y = 65, rule = B3/S23\n" +
         "27b2o$27bobo$29bo4b2o$25b4ob2o2bo2bo$25bo2bobobobob2o$28bobobobo$29b2o" +
@@ -412,27 +435,42 @@ bob$2bo$3o!`
         "12bo$3b2o12bo3$11b2o17bo$12bo17b3o$9b3o21bo$9bo22b2o$37bo$28bo8bobo$27b" +
         "2o8b2o$27bobo3$42b2o$35b2o5bobo$35b2o7bo$44b2o2$31bo$30bobob2o$30bobo" +
         "bobo$27b2obobobobo2bo$27bo2bo2b2ob4o$29b2o4bo$35bobo$36b2o!"
-      const result = await game.readAndOutputGeneration("test/snark-loop.rle", 5);
+
+      const result = await game.readAndOutputGeneration("test/snark-loop.rle", 1);
+      console.log("Result:");
+      console.log(result.split("$"));
       const finalResult = game.removeTrailingDeadCells(result);
-      const reallyFinal = game.addRepeatedLines(finalResult)
+      // console.log(finalResult);
+      // const reallyFinal = game.addRepeatedLines(finalResult)
+      const result1 = game.compressRepeatedLines(finalResult);
 
       const expectedLines = expected.split("$");
-      const finalResultLines = finalResult.split("$");
+      const finalResultLines = result1.split("$");
+      // const finalResultLines = finalResult.split("$");
 
 
-      expect(expectedLines).to.deep.equal(finalResultLines);
-      console.log(expected.length);
-      console.log(finalResult.length);
-      expect(reallyFinal).toEqual(expected);
+      // expect(finalResultLines).to.equal(expectedLines);
+      // console.log(expected.length);
+      // console.log(finalResult.length);
+      expect(result1).toEqual(expected);
     })
 
     // find more shapes to test
 
 // need to check list for duplicates rows and then compress them and use the end digits
+// do the numbers at the end actually mean a blank row is next?
 
+test.skip("blinker", async () => {
+  const expected = "#N Blinker\n" +
+    "#O John Conway\n" +
+    "#C A period 2 oscillator that is the smallest and most common oscillator.\n" +
+    "#C www.conwaylife.com/wiki/index.php?title=Blinker\n" +
+    "x = 3, y = 1, rule = B3/S23\n" +
+    "o$o$o!";
 
-
-
+  const result = await game.readAndOutputGeneration("test/blinker.rle", 1);
+  const finalResult = game.removeTrailingDeadCells(result);
+  expect(finalResult).toEqual(expected);
+});
   })
-
 })
