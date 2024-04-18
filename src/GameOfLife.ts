@@ -80,7 +80,6 @@ export class GameOfLife {
     const shape = df.parseRLEString(inputString);
     const board = new Board(9, 9);
     board.placeShape(shape, 2, 2)
-    // console.log(board.grid);
     return board;
   }
 }
