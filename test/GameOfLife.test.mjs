@@ -145,7 +145,6 @@ describe("Game of Life", () => {
     });
 
     test("should repeat lines when an rle line has a number at the end", () => {
-      const game = new GameOfLife();
       const df = new DataFormatter();
       const input = "x = 26, y = 6, rule = B3/S23\n" + "24bo$22o$5b7o3$2o!";
       const expected = "x = 26, y = 6, rule = B3/S23\n" + "24bo$22o$5b7o3$2o!"
@@ -155,12 +154,12 @@ describe("Game of Life", () => {
       result = df.removeTrailingDeadCells(result)
       result = df.compressRepeatedLines(result)
       expect(result).toEqual(expected)
-    })
+    });
 
     test("should output the matrix as an RLE string", () => {
-      const game = new GameOfLife();
-      const shape = game.parseRLEString(glider);
-      const result = game.outputRLE(shape, shape.length, shape[0].length);
+      const df = new DataFormatter();
+      const shape = df.parseRLEString(glider);
+      const result = df.outputRLE(shape);
       expect(result).to.deep.equal("bob$2bo$3o!");
     })
 
@@ -177,20 +176,21 @@ bob$2bo$3o!`
     });
 
     test("should return pattern in rle format including metadata", () => {
-      const game = new GameOfLife();
-      const shape = game.parseRLEString(glider);
-      const result = game.outputFullRLE(shape,shape.length, shape[0].length);
+      const df = new DataFormatter();
+      const shape = df.parseRLEString(glider);
+      const result = df.outputFullRLE(shape);
       expect(result).to.deep.equal(glider);
     });
 
     test("should remove explicitly set empty cells at end of line in RLE string", () => {
       const game = new GameOfLife()
+      const df = new DataFormatter();
       const inputString = [  ["b", "o", "b"],
         ["b", "b", "o"],
         ["o", "o", "o"]]
       const expected = "bo$2bo$3o!";
-      const result = game.outputRLE(inputString);
-      const finalResult = game.removeTrailingDeadCells(result)
+      const result = df.outputRLE(inputString);
+      const finalResult = df.removeTrailingDeadCells(result)
       expect(finalResult).toEqual(expected)
     })
   })
@@ -327,8 +327,8 @@ bob$2bo$3o!`
       // const reallyFinal = game.addRepeatedLines(finalResult)
       const result1 = game.compressRepeatedLines(finalResult);
 
-      const expectedLines = expected.split("$");
-      const finalResultLines = result1.split("$");
+      // const expectedLines = expected.split("$");
+      // const finalResultLines = result1.split("$");
       // const finalResultLines = finalResult.split("$");
 
 
