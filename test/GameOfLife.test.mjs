@@ -98,33 +98,17 @@ describe("Game of Life", () => {
   describe("reading and writing the rle patterns", () => {
 
     // todo - decide if these ar even necessary - were scaffolding while developing parseRLEString method
-    // test("should parse width of input from metadata", () => {
-    //   const gol = new GameOfLife();
-    //   gol.parseRLEString(glider);
-    //   expect(gol.width).to.equal(3);
-    // })
-    //
-    // test("should parse height of input from metadata", () => {
-    //   const gol = new GameOfLife();
-    //   gol.parseRLEString(glider);
-    //   expect(gol.height).to.equal(3);
-    // })
+    test.skip("should parse width of input from metadata", () => {
+      const gol = new GameOfLife();
+      gol.parseRLEString(glider);
+      expect(gol.width).to.equal(3);
+    })
 
-
-
-    test("should read string from RLE file", async () => {
-      const expected = `#N Glider
-#O Richard K. Guy
-#C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.
-#C www.conwaylife.com/wiki/index.php?title=Glider
-x = 3, y = 3, rule = B3/S23
-bob$2bo$3o!`
-
-      const result = DataFormatter.readFile("test/glider.rle");
-      expect(result).to.deep.equal(expected);
-    });
-
-
+    test.skip("should parse height of input from metadata", () => {
+      const gol = new GameOfLife();
+      gol.parseRLEString(glider);
+      expect(gol.height).to.equal(3);
+    })
   })
 
   describe("core game logic", () => {

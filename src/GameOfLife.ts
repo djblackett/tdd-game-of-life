@@ -59,6 +59,8 @@ export class GameOfLife {
     return this.getFullOutputAfterGenerations(inputString, generations);
   }
 
+
+  // Below is for manually reviewing the game state
   outputGame() {
     const df = new DataFormatter()
     const inputString = DataFormatter.readFile("test/blinker.rle");
