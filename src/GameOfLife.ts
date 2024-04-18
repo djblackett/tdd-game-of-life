@@ -59,7 +59,7 @@ export class GameOfLife {
     this.height = parseInt(y);
 
     if (data) {
-      let lines = data.split("$");
+      let lines = data.split(/[$\n]/);
       let tempGrid: string[][] = [[""]];
 
       for (let row = 0; row < lines.length; row++) {
@@ -151,6 +151,35 @@ export class GameOfLife {
     return fixedString
   }
 
+  compressRepeatedLines(rle: string) {
+    let count = 1
+    let isRun = false;
+    const lines = rle.split("$");
+    console.log("Lines:");
+    console.log(lines);
+    const noRepeatsGrid: string[] = []
+
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i] === lines[i + 1]) {
+        isRun = true;
+        count++;
+      } else if (lines[i] !== lines[i + 1] && isRun) {
+        // lines.splice(i - count + 1, count, lines[i] + (count + 1).toString())
+        noRepeatsGrid.push(lines[i].concat((count + 1).toString()));
+        console.log(lines[i]);
+        console.log(noRepeatsGrid[noRepeatsGrid.length - 1]);
+        isRun = false;
+        count = 1;
+        // i -= count
+      }
+      else {
+        noRepeatsGrid.push(lines[i])
+      }
+    }
+    console.log(noRepeatsGrid);
+    return noRepeatsGrid.join("$");
+  }
+
   addRepeatedLines(rle: string){
     const arr = rle.split("$");
     for (let i = 0; i < arr.length; i++) {
@@ -158,19 +187,6 @@ export class GameOfLife {
       if (matcher) {
         arr[i] = (arr[i] + "$").repeat(parseInt(matcher[1]));
         arr[i] = arr[i].substring(0, arr[i].length - 1)
-      }
-    }
-    return arr.join("$")
-  }
-
-  addRepeatedLinesGrid(arr: string[][]) {
-    for (let i = 0; i < arr.length; i++) {
-      let line = arr[i].join("")
-      let matcher = line.charAt(line.length - 1).match("\d+")
-      if (matcher) {
-        line = (line + "$").repeat(parseInt(matcher[1]));
-        line = line.substring(0, line.length - 1)
-        arr[i] = line.split("")
       }
     }
     return arr.join("$")
@@ -201,12 +217,13 @@ export class GameOfLife {
     const height = shape.length + generations + 3
     const width = shape[0].length + generations + 3
     const board = new Board(height, width);
-    board.placeShape(shape, 0, 0)
+
+    board.placeShape(shape, 2, 2)
 
     for (let i = 0; i < generations; i++) {
       board.setGrid(this.evolve(board, height, width));
     }
-    return board.isolateShape(shape.length, shape[0].length);
+    return board.isolateShape();
   }
 
   getOutputAfterGenerations(inputPattern: string, generations: number) {
@@ -230,10 +247,10 @@ export class GameOfLife {
 
   outputGame() {
     const game = new GameOfLife();
-    const inputString = GameOfLife.readFile("test/snark-loop.rle");
+    const inputString = GameOfLife.readFile("test/blinker.rle");
     const shape = this.parseRLEString(inputString);
-    const board = new Board(9, 36);
-    board.placeShape(shape, 0, 0)
+    const board = new Board(9, 9);
+    board.placeShape(shape, 2, 2)
     // console.log(board.grid);
     return board;
   }
@@ -249,7 +266,8 @@ async function play() {
 
   for (let i = 0; i < 5; i++) {
       console.table(board.grid);
-      board.setGrid(game.evolve(board, 9, 36));
+    console.log(board.grid);
+      board.setGrid(game.evolve(board, 9, 9));
       await sleep(500)
   }
 

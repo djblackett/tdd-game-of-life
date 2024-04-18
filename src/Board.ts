@@ -70,7 +70,6 @@ export class Board {
       }
       result.push(row);
     }
-    console.log(result);
     return result;
   }
 
