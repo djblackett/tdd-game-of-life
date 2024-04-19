@@ -126,7 +126,7 @@ export class DataFormatter {
       }
       charArr[i] = str;
     }
-    return charArr.join("$") + "!";
+    return this.shortenRLEString(charArr.join("$") + "!");
   }
 
   // todo - need metadata from argument
@@ -134,6 +134,20 @@ export class DataFormatter {
     let str = this.metadata.join("\n");
     str += "\n" + this.outputRLE(shape);
     return str;
+  }
+
+  shortenRLEString(rle: string) {
+    if (rle.length <= 70) {
+      return rle
+    }
+    let shortened = ""
+    while (rle.length > 70) {
+      shortened += rle.substring(0, 70) + "\n";
+      console.log(shortened);
+      rle = rle.substring(70);
+    }
+    shortened += rle;
+    return shortened
   }
 
   removeTrailingDeadCells(rle: string) {
