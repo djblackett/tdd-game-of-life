@@ -4,6 +4,8 @@ import { expect } from "chai";
 import { gliderGunGrid } from "./GameOfLife.test.mjs";
 import { GameOfLife } from "../src/GameOfLife";
 import { snark0, snark1 } from "./snark-fragments.js";
+import { RLEReader } from "../src/RLEReader";
+import { RLEWriter } from "../src/RLEWriter";
 
 const glider = `#N Glider
 #O Richard K. Guy
@@ -93,7 +95,8 @@ bob$2bo$3o!`
       "14bo2$2o$bo8bo$bobo5b2o$2b2o!"
     const df = new DataFormatter();
     const result = df.outputFullRLE(df.parseRLEString(input));
-    expect(result.split("\n")[1].length).toBeLessThanOrEqual(70);
+    const shortenedResult = df.shortenRLEString(result)
+    expect(shortenedResult.split("\n")[1].length).toBeLessThanOrEqual(70);
 
   })
 
@@ -107,9 +110,10 @@ bob$2bo$3o!`
 
 
   test("should return pattern in rle format including metadata", () => {
-    const df = new DataFormatter();
-    const shape = df.parseRLEString(glider);
-    const result = df.outputFullRLE(shape);
+    const rleReader = new RLEReader();
+    const shape = rleReader.parseRLEString(glider);
+    const rleWriter = new RLEWriter(rleReader.getMetadata())
+    const result = rleWriter.outputFullRLE(shape);
     expect(result).to.deep.equal(glider);
   });
 
