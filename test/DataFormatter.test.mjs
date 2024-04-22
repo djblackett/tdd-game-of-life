@@ -2,7 +2,6 @@ import { describe, test } from "vitest";
 import { DataFormatter } from "../src/DataFormatter";
 import { expect } from "chai";
 import { gliderGunGrid } from "./GameOfLife.test.mjs";
-import { GameOfLife } from "../src/GameOfLife";
 import { snark0, snark1 } from "./snark-fragments.js";
 import { RLEReader } from "../src/RLEReader";
 import { RLEWriter } from "../src/RLEWriter";
@@ -14,7 +13,7 @@ const glider = `#N Glider
 x = 3, y = 3, rule = B3/S23
 bob$2bo$3o!`
 
-describe("reading and writing the rle patterns", () => {
+describe("reading and parsing rle patterns", () => {
 
   test("should read string from RLE file", async () => {
     const expected = `#N Glider
@@ -24,13 +23,13 @@ describe("reading and writing the rle patterns", () => {
 x = 3, y = 3, rule = B3/S23
 bob$2bo$3o!`
 
-    const result = DataFormatter.readFile("test/glider.rle");
+    const result = RLEReader.readFile("test/glider.rle");
     expect(result).to.deep.equal(expected);
   });
 
   test("should parse an RLE string input and return as matrix", () => {
-    const df = new DataFormatter();
-    const result = df.parseRLEString(glider);
+    const rleReader = new RLEReader()
+    const result = rleReader.parseRLEString(glider);
     const expected = [
       ["b", "o", "b"],
       ["b", "b", "o"],
@@ -47,15 +46,14 @@ bob$2bo$3o!`
       ["b", "b", "o"],
       ["o", "o", "o"]
     ];
-    const df = new DataFormatter()
-    const result = df.parseRLEString(inputString);
+    const rleReader = new RLEReader()
+    const result = rleReader.parseRLEString(inputString);
     expect(result).to.deep.equal(expected);
   })
 
   test("should parse a multi line rle file and return as a matrix", () => {
-    const df = new DataFormatter()
-
-    const result = df.parseRLEString("x = 36, y = 9, rule = B3/S23\n" +
+    const rleReader = new RLEReader()
+    const result = rleReader.parseRLEString("x = 36, y = 9, rule = B3/S23\n" +
       "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b\n" +
       "obo$10bo5bo7bo$11bo3bo$12b2o!");
 
@@ -85,28 +83,31 @@ bob$2bo$3o!`
     result = df.removeTrailingDeadCells(result)
     result = df.compressRepeatedLines(result)
     expect(result).toEqual(expected)
-
   })
+});
 
-  // write test for shortening line lengths to 70 chars max
+describe("processing and outputting rle patterns", () => {
+
   test("should output text with lines of 70 chars max", () => {
     const input = "x = 19, y = 13, rule = B3/S23\n" +
       "8b2o$8bobo$10bo4b2o$6b4ob2o2bo2bo$6bo2bo3bobob2o$9bobobobo$10b2obobo$\n" +
       "14bo2$2o$bo8bo$bobo5b2o$2b2o!"
-    const df = new DataFormatter();
-    const result = df.outputFullRLE(df.parseRLEString(input));
-    const shortenedResult = df.shortenRLEString(result)
-    expect(shortenedResult.split("\n")[1].length).toBeLessThanOrEqual(70);
+    const rleReader = new RLEReader()
+    const parsedFile = rleReader.parseRLEString(input);
+    const rleWriter = new RLEWriter(rleReader.getMetadata());
 
+    const result = rleWriter.outputFullRLE(parsedFile);
+    const shortenedResult = rleWriter.shortenRLEString(result)
+    expect(shortenedResult.split("\n")[1].length).toBeLessThanOrEqual(70);
   })
 
   test("should output the matrix as an RLE string", () => {
-    const df = new DataFormatter();
-    const shape = df.parseRLEString(glider);
-    const result = df.outputRLE(shape);
+    const rleReader = new RLEReader()
+    const rleWriter = new RLEWriter(rleReader.getMetadata());
+    const shape = rleReader.parseRLEString(glider);
+    const result = rleWriter.outputRLE(shape);
     expect(result).to.deep.equal("bob$2bo$3o!");
   })
-
 
 
   test("should return pattern in rle format including metadata", () => {
@@ -118,14 +119,13 @@ bob$2bo$3o!`
   });
 
   test("should remove explicitly set empty cells at end of line in RLE string", () => {
-    const game = new GameOfLife()
-    const df = new DataFormatter();
-    const inputString = [["b", "o", "b"],
+    const rleWriter = new RLEWriter();
+    const inputArray = [["b", "o", "b"],
       ["b", "b", "o"],
       ["o", "o", "o"]]
     const expected = "bo$2bo$3o!";
-    const result = df.outputRLE(inputString);
-    const finalResult = df.removeTrailingDeadCells(result)
+    const result = rleWriter.outputRLE(inputArray);
+    const finalResult = rleWriter.removeTrailingDeadCells(result)
     expect(finalResult).toEqual(expected)
   })
 });

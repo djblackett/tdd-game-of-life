@@ -1,7 +1,7 @@
 export class RLEWriter {
   metadata;
 
-  constructor(metadata: string[]) {
+  constructor(metadata: string[] = []) {
     this.metadata = metadata;
   }
 
