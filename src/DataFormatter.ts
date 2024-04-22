@@ -126,28 +126,40 @@ export class DataFormatter {
       }
       charArr[i] = str;
     }
-    return this.shortenRLEString(charArr.join("$") + "!");
+    // return this.shortenRLEString(charArr.join("$") + "!");
+    return charArr.join("$") + "!"
   }
 
-  // todo - need metadata from argument
   outputFullRLE(shape: string[][]) {
     let str = this.metadata.join("\n");
     str += "\n" + this.outputRLE(shape);
     return str;
   }
-
+  
   shortenRLEString(rle: string) {
+    const stringArr = rle.split("\n");
+    const encodedLinesOnly: string[] = []
+    for (let line of stringArr) {
+      if (!line.startsWith("#") && !line.startsWith("x")) {
+        encodedLinesOnly.push(line);
+      }
+    }
+
+    rle = encodedLinesOnly.join("\n");
+
     if (rle.length <= 70) {
       return rle
     }
+
     let shortened = ""
     while (rle.length > 70) {
-      shortened += rle.substring(0, 70) + "\n";
+      shortened += rle.substring(0, 69) + "\n";
       console.log(shortened);
-      rle = rle.substring(70);
+      rle = rle.substring(69);
     }
+
     shortened += rle;
-    return shortened
+    return stringArr[0] + "\n" + shortened
   }
 
   removeTrailingDeadCells(rle: string) {
