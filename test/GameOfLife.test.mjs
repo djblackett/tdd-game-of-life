@@ -214,7 +214,7 @@ describe("Game of Life", () => {
     test("should work end to end for gosper gun shape, 3 generations", async () => {
       const game = new GameOfLife();
       const rleWriter = new RLEWriter();
-      const expected =  "x = 36, y = 9, rule = B3/S23\n" +
+      const expected = "x = 36, y = 9, rule = B3/S23\n" +
         "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b\n" +
         "3o4bo2b2obobo$9b3o4b2o4bo$10bobo$11b2o!"
 
@@ -228,7 +228,7 @@ describe("Game of Life", () => {
     // come back to this later
     test.skip("should output correct rle for snark loop, 1 generation", async () => {
       const game = new GameOfLife();
-      const metadata =["x = 65, y = 65, rule = B3/S23\n"]
+      const metadata = ["x = 65, y = 65, rule = B3/S23\n"]
       const rleWriter = new RLEWriter(metadata);
 
       const expected = "x = 65, y = 65, rule = B3/S23\n" +
@@ -262,18 +262,18 @@ describe("Game of Life", () => {
 
     // find more shapes to test
 
-test("blinker", async () => {
-  const df = new DataFormatter();
-  const expected = "#N Blinker\n" +
-    "#O John Conway\n" +
-    "#C A period 2 oscillator that is the smallest and most common oscillator.\n" +
-    "#C www.conwaylife.com/wiki/index.php?title=Blinker\n" +
-    "x = 3, y = 1, rule = B3/S23\n" +
-    "o$o$o!";
+    test("blinker", async () => {
+      const df = new DataFormatter();
+      const expected = "#N Blinker\n" +
+        "#O John Conway\n" +
+        "#C A period 2 oscillator that is the smallest and most common oscillator.\n" +
+        "#C www.conwaylife.com/wiki/index.php?title=Blinker\n" +
+        "x = 3, y = 1, rule = B3/S23\n" +
+        "o$o$o!";
 
-  const result = await game.readAndOutputGeneration("test/blinker.rle", 1);
-  const finalResult = df.removeTrailingDeadCells(result);
-  expect(finalResult).toEqual(expected);
-});
+      const result = await game.readAndOutputGeneration("test/blinker.rle", 1);
+      const finalResult = df.removeTrailingDeadCells(result);
+      expect(finalResult).toEqual(expected);
+    });
   })
 })
