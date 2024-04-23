@@ -62,9 +62,9 @@ export class GameOfLife {
 
   // Below is for manually reviewing the game state
   outputGame() {
-    const df = new DataFormatter()
-    const inputString = DataFormatter.readFile("test/blinker.rle");
-    const shape = df.parseRLEString(inputString);
+    const reader = new RLEReader()
+    const inputString = RLEReader.readFile("test/rle-files/blinker.rle");
+    const shape = reader.parseRLEString(inputString);
     const board = new Board(9, 9);
     board.placeShape(shape, 2, 2)
     return board;
