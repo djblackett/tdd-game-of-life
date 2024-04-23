@@ -76,7 +76,6 @@ export class RLEWriter {
     return fixedString
   }
 
-  // todo - change this to detect empty rows and compress them onto previous row as a number
   compressRepeatedLines(rle: string) {
     let count = 1
     let isRun = false;

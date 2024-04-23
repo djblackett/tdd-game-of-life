@@ -198,7 +198,7 @@ describe("Game of Life", () => {
         "x = 3, y = 3, rule = B3/S23\n" +
         "o2b$b2o$2ob!"
 
-      const result = await game.readAndOutputGeneration("test/glider.rle", 3);
+      const result = await game.readAndOutputGeneration("test/rle-files/glider.rle", 3);
       expect(result).toEqual(expected);
     })
 
@@ -206,7 +206,7 @@ describe("Game of Life", () => {
       const game = new GameOfLife();
       const expected = "#N Block\n#C An extremely common 4-cell still life.\n#C www.conwaylife.com/wiki/index.php?title=Block\nx = 2, y = 2, rule = B3/S23\n2o$2o!"
 
-      const result = await game.readAndOutputGeneration("test/block.rle", 3);
+      const result = await game.readAndOutputGeneration("test/rle-files/block.rle", 3);
       expect(result).toEqual(expected);
     });
 
@@ -218,7 +218,7 @@ describe("Game of Life", () => {
         "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b\n" +
         "3o4bo2b2obobo$9b3o4b2o4bo$10bobo$11b2o!"
 
-      const result = await game.readAndOutputGeneration("test/gosper-gun.rle", 3);
+      const result = await game.readAndOutputGeneration("test/rle-files/gosper-gun.rle", 3);
       const finalResult = rleWriter.removeTrailingDeadCells(result);
       const shortened = rleWriter.shortenRLEString(finalResult);
       expect(shortened).toEqual(expected);
@@ -242,7 +242,7 @@ describe("Game of Life", () => {
         "2o8b2o$27bobo3$42b2o$35b2o5bobo$35b2o7bo$44b2o2$31bo$30bobob2o$30bobo" +
         "bobo$27b2obobobobo2bo$27bo2bo2b2ob4o$29b2o4bo$35bobo$36b2o!";
 
-      const result = await game.readAndOutputGeneration("test/snark-loop.rle", 1);
+      const result = await game.readAndOutputGeneration("test/rle-files/snark-loop.rle", 1);
       // console.log("Result:");
       // console.log(result.split("$"));
       const finalResult = rleWriter.removeTrailingDeadCells(result);
@@ -270,7 +270,7 @@ describe("Game of Life", () => {
         "x = 3, y = 1, rule = B3/S23\n" +
         "o$o$o!";
 
-      const result = await game.readAndOutputGeneration("test/blinker.rle", 1);
+      const result = await game.readAndOutputGeneration("test/rle-files/blinker.rle", 1);
       const finalResult = df.removeTrailingDeadCells(result);
       expect(finalResult).toEqual(expected);
     });

@@ -23,7 +23,7 @@ describe("reading and parsing rle patterns", () => {
 x = 3, y = 3, rule = B3/S23
 bob$2bo$3o!`
 
-    const result = RLEReader.readFile("test/glider.rle");
+    const result = RLEReader.readFile("test/rle-files/glider.rle");
     expect(result).to.deep.equal(expected);
   });
 
