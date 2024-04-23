@@ -3,6 +3,7 @@ import { expect } from "chai";
 import { GameOfLife } from "../src/GameOfLife";
 import { Board } from "../src/Board";
 import { DataFormatter } from "../src/DataFormatter";
+import { RLEWriter } from "../src/RLEWriter";
 
 
 const glider = `#N Glider
@@ -212,24 +213,23 @@ describe("Game of Life", () => {
     // need function that integrates all of the parsing features in 1 workflow. split lines into 70 char chunks at the end
     test("should work end to end for gosper gun shape, 3 generations", async () => {
       const game = new GameOfLife();
-      const df = new DataFormatter();
+      const rleWriter = new RLEWriter();
       const expected =  "x = 36, y = 9, rule = B3/S23\n" +
         "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b\n" +
         "3o4bo2b2obobo$9b3o4b2o4bo$10bobo$11b2o!"
 
-      // console.log("Length of first line:", "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b".length);
-
       const result = await game.readAndOutputGeneration("test/gosper-gun.rle", 3);
-      const finalResult = df.removeTrailingDeadCells(result);
-      const shortened = df.shortenRLEString(finalResult);
-      // console.log(shortened.split("\n"));
+      const finalResult = rleWriter.removeTrailingDeadCells(result);
+      const shortened = rleWriter.shortenRLEString(finalResult);
       expect(shortened).toEqual(expected);
     });
+
 
     // come back to this later
     test.skip("should output correct rle for snark loop, 1 generation", async () => {
       const game = new GameOfLife();
-      const df = new DataFormatter();
+      const metadata =["x = 65, y = 65, rule = B3/S23\n"]
+      const rleWriter = new RLEWriter(metadata);
 
       const expected = "x = 65, y = 65, rule = B3/S23\n" +
         "27b2o$27bobo$29bo4b2o$25b4ob2o2bo2bo$25bo2bobobobob2o$28bobobobo$29b2o" +
@@ -240,31 +240,27 @@ describe("Game of Life", () => {
         "2o14b5o$b2o3bo3b2o37bo12bo$o2b3o4b2o35b2o11bo$2obo12b3o29b2o10b2o$3bo" +
         "12bo$3b2o12bo3$11b2o17bo$12bo17b3o$9b3o21bo$9bo22b2o$37bo$28bo8bobo$27b" +
         "2o8b2o$27bobo3$42b2o$35b2o5bobo$35b2o7bo$44b2o2$31bo$30bobob2o$30bobo" +
-        "bobo$27b2obobobobo2bo$27bo2bo2b2ob4o$29b2o4bo$35bobo$36b2o!"
+        "bobo$27b2obobobobo2bo$27bo2bo2b2ob4o$29b2o4bo$35bobo$36b2o!";
 
       const result = await game.readAndOutputGeneration("test/snark-loop.rle", 1);
-      console.log("Result:");
-      console.log(result.split("$"));
-      const finalResult = df.removeTrailingDeadCells(result);
+      // console.log("Result:");
+      // console.log(result.split("$"));
+      const finalResult = rleWriter.removeTrailingDeadCells(result);
       // console.log(finalResult);
-      // const reallyFinal = game.addRepeatedLines(finalResult)
-      const result1 = df.compressRepeatedLines(finalResult);
+      const result1 = rleWriter.compressRepeatedLines(finalResult);
 
-      // const expectedLines = expected.split("$");
-      // const finalResultLines = result1.split("$");
+      const expectedLines = expected.split("$");
+      const finalResultLines = result1.split("$");
       // const finalResultLines = finalResult.split("$");
 
 
-      // expect(finalResultLines).to.equal(expectedLines);
+      expect(finalResultLines).to.equal(expectedLines);
       // console.log(expected.length);
       // console.log(finalResult.length);
       expect(result1).toEqual(expected);
     })
 
     // find more shapes to test
-
-// need to check list for duplicates rows and then compress them and use the end digits
-// do the numbers at the end actually mean a blank row is next?
 
 test("blinker", async () => {
   const df = new DataFormatter();

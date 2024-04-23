@@ -81,8 +81,6 @@ export class RLEWriter {
     let count = 1
     let isRun = false;
     const lines = rle.split("$");
-    console.log("Lines:");
-    console.log(lines);
     const noRepeatsGrid: string[] = []
 
     for (let i = 0; i < lines.length; i++) {
@@ -91,12 +89,8 @@ export class RLEWriter {
         isRun = true;
         count++;
       } else if (!isEmptyRow && isRun) {
-        // lines.splice(i - count + 1, count, lines[i] + (count + 1).toString())
-        // noRepeatsGrid.push(lines[i].concat((count - 1 ).toString()));
         noRepeatsGrid[noRepeatsGrid.length - 1] += (count).toString()
         noRepeatsGrid.push(lines[i])
-        console.log(lines[i]);
-        console.log(noRepeatsGrid[noRepeatsGrid.length - 1]);
         isRun = false;
         count = 1;
         // i -= count
@@ -105,7 +99,6 @@ export class RLEWriter {
         noRepeatsGrid.push(lines[i])
       }
     }
-    console.log(noRepeatsGrid);
     return noRepeatsGrid.join("$");
   }
 }
