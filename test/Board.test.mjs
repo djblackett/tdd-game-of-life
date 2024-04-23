@@ -116,7 +116,7 @@ describe("basic board functionality", () => {
     const board = new Board(9, 9);
     board.setGrid(blinkerGrid);
     const isolatedShape = board.isolateShape()
-    console.log(isolatedShape)
+    // console.log(isolatedShape)
     expect(isolatedShape).to.deep.equal([["o"], ["o"], ["o"]])
 
 
