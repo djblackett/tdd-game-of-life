@@ -76,23 +76,13 @@ bob$2bo$3o!`
 
   test("should add a line of empty cells after a line with a number at the end", () => {
     const reader = new RLEReader();
-    const input = snark0;
-    // const expected = snark1;
-    const grid = reader.parseRLEString(input);
+    const grid = reader.parseRLEString(snark0);
     console.log(grid);
     console.table(grid);
-
-    const expected = snarkArr;
-
-    // const writer = new RLEWriter(reader.getMetadata())
-    // let result = writer.outputFullRLE(grid);
-    // result = writer.removeTrailingDeadCells(result)
-    // result = writer.compressRepeatedLines(result)
-    // result = writer.shortenRLEString(result)
-    expect(grid).to.deep.equal(expected)
+    expect(grid).to.deep.equal(snarkArr)
   })
 
-  // compressRepeatedLines refactor
+
   test("should remove empty lines and add number to end of previous line (before previous '$')", () => {
     const reader = new RLEReader();
     const input = snark0;
@@ -105,7 +95,6 @@ bob$2bo$3o!`
     result = writer.shortenRLEString(result)
     expect(result).toEqual(expected)
   })
-
 
 });
 
@@ -131,7 +120,6 @@ describe("processing and outputting rle patterns", () => {
     const result = rleWriter.outputRLE(shape);
     expect(result).to.deep.equal("bob$2bo$3o!");
   })
-
 
   test("should return pattern in rle format including metadata", () => {
     const rleReader = new RLEReader();
