@@ -59,6 +59,19 @@ export class GameOfLife {
     return this.getFullOutputAfterGenerations(inputString, generations);
   }
 
+  async endToEnd(filepath: string, generations: number, removeTrailingEmptyCells=true) {
+    const game = new GameOfLife();
+    const rleWriter = new RLEWriter();
+
+    let result = await game.readAndOutputGeneration(filepath, generations);
+    if (removeTrailingEmptyCells) {
+      result = rleWriter.removeTrailingDeadCells(result);
+    }
+    result = rleWriter.compressRepeatedLines(result);
+    result = rleWriter.shortenRLEString(result);
+    return result;
+  }
+
 
   // Below is for manually reviewing the game state
   outputGame() {
