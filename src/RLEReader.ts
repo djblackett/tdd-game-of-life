@@ -56,7 +56,7 @@ export class RLEReader {
 
     if (data) {
       let lines = data.split(/[$\n]/);
-      let tempGrid: string[][] = [[""]];
+      let tempGrid: string[][] = [];
 
       for (let row = 0; row < lines.length; row++) {
         let str = "";
@@ -68,7 +68,6 @@ export class RLEReader {
         if (endDigitMatcher) {
           endDigits = endDigitMatcher[1];
         }
-
 
         for (let char = 0; char < lines[row].length; char++) {
 
@@ -87,14 +86,13 @@ export class RLEReader {
         }
 
         let fullLine = str.padEnd(parseInt(x), "b");
-        tempGrid[row] = fullLine.split("");
-
+        tempGrid.push(fullLine.split(""))
 
         if (endDigits) {
           const digits = parseInt(endDigits);
 
-          for (let i = row; i < digits; i++) {
-            lines.splice(row, 0, fullLine);
+          for (let i = 0; i < digits - 1; i++) {
+            tempGrid.push("b".repeat(parseInt(x)).split(""));
           }
         }
       }

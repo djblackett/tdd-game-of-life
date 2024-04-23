@@ -2,7 +2,7 @@ import { describe, test } from "vitest";
 import { DataFormatter } from "../src/DataFormatter";
 import { expect } from "chai";
 import { gliderGunGrid } from "./GameOfLife.test.mjs";
-import { snark0, snark1 } from "./snark-fragments.js";
+import { snark0, snark1, snarkArr } from "./snark-fragments.mjs";
 import { RLEReader } from "../src/RLEReader";
 import { RLEWriter } from "../src/RLEWriter";
 
@@ -43,7 +43,7 @@ bob$2bo$3o!`
     const expected = [
       ["b", "o", "b"],
       ["b", "b", "o"],
-      ["b", "b", "o"],
+      ["b", "b", "b"],
       ["o", "o", "o"]
     ];
     const rleReader = new RLEReader()
@@ -73,17 +73,42 @@ bob$2bo$3o!`
     expect(result).toEqual(expected)
   });
 
-  test.skip("should add a line of empty cells after a line with a number at the end", () => {
-    const df = new DataFormatter();
+  // too many things at once
+  test("should add a line of empty cells after a line with a number at the end", () => {
+    const reader = new RLEReader();
+    const input = snark0;
+    // const expected = snark1;
+    const grid = reader.parseRLEString(input);
+    console.log(grid);
+    console.table(grid);
+
+    const expected = snarkArr;
+
+    // const writer = new RLEWriter(reader.getMetadata())
+    // let result = writer.outputFullRLE(grid);
+    // result = writer.removeTrailingDeadCells(result)
+    // result = writer.compressRepeatedLines(result)
+    // result = writer.shortenRLEString(result)
+    expect(grid).to.deep.equal(expected)
+  })
+
+  test.skip("should remove empty lines and add number to end of previous line (before previous '$')", () => {
+    const reader = new RLEReader();
     const input = snark0;
     const expected = snark1;
-    const grid = df.parseRLEString(input);
-    let result = df.outputFullRLE(grid);
-    result = df.addRepeatedLines(result);
-    result = df.removeTrailingDeadCells(result)
-    result = df.compressRepeatedLines(result)
+    const grid = reader.parseRLEString(input);
+    const writer = new RLEWriter(reader.getMetadata())
+    let result = writer.outputFullRLE(grid);
+    result = writer.removeTrailingDeadCells(result)
+    result = writer.compressRepeatedLines(result)
+    result = writer.shortenRLEString(result)
     expect(result).toEqual(expected)
   })
+
+
+
+
+
 });
 
 describe("processing and outputting rle patterns", () => {
