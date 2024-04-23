@@ -77,8 +77,8 @@ bob$2bo$3o!`
   test("should add a line of empty cells after a line with a number at the end", () => {
     const reader = new RLEReader();
     const grid = reader.parseRLEString(snark0);
-    console.log(grid);
-    console.table(grid);
+    // console.log(grid);
+    // console.table(grid);
     expect(grid).to.deep.equal(snarkArr)
   })
 
