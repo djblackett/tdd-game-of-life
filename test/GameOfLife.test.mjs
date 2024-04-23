@@ -252,11 +252,10 @@ describe("Game of Life", () => {
       const expectedLines = expected.split("$");
       const finalResultLines = result1.split("$");
       // const finalResultLines = finalResult.split("$");
-
-
+      console.log(expected.length);
+      console.log(finalResult.length);
       expect(finalResultLines).to.equal(expectedLines);
-      // console.log(expected.length);
-      // console.log(finalResult.length);
+
       expect(result1).toEqual(expected);
     })
 
