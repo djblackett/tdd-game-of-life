@@ -1,6 +1,8 @@
 import fs from "node:fs";
 import { Board } from "./Board";
 import { DataFormatter } from "./DataFormatter";
+import { RLEReader } from "./RLEReader";
+import { RLEWriter } from "./RLEWriter";
 
 export class GameOfLife {
 
@@ -45,13 +47,14 @@ export class GameOfLife {
     return  df.outputRLE(boundingBox)
   }
 
+
   getFullOutputAfterGenerations(inputPattern: string, generations: number) {
-    const df = new DataFormatter();
-    const shape = df.parseRLEString(inputPattern);
+    const reader = new RLEReader();
+    const shape = reader.parseRLEString(inputPattern);
+    const writer = new RLEWriter(reader.getMetadata())
     const boundingBox = this.getBoundingBoxAfterGenerations(shape, generations)
-    const patternString = df.outputRLE(boundingBox);
-    // const structure = this.metadata.length > 1 ? this.metadata[this.metadata.length - 1] : this.metadata[0]
-    return  df.metadata.join("\n") + "\n" + patternString
+    const patternString = writer.outputRLE(boundingBox);
+    return  reader.metadata.join("\n") + "\n" + patternString
   }
 
   async readAndOutputGeneration(filepath: string, generations: number) {

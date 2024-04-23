@@ -4,6 +4,7 @@ import { GameOfLife } from "../src/GameOfLife";
 import { Board } from "../src/Board";
 import { DataFormatter } from "../src/DataFormatter";
 import { RLEWriter } from "../src/RLEWriter";
+import { RLEReader } from "../src/RLEReader";
 
 
 const glider = `#N Glider
@@ -274,5 +275,10 @@ describe("Game of Life", () => {
       const finalResult = df.removeTrailingDeadCells(result);
       expect(finalResult).toEqual(expected);
     });
+
+    test("loaf", () => {
+      const rleReader = new RLEReader();
+
+    })
   })
 })
