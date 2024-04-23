@@ -230,6 +230,7 @@ describe("Game of Life", () => {
     test.skip("should output correct rle for snark loop, 1 generation", async () => {
       const game = new GameOfLife();
       const df = new DataFormatter();
+
       const expected = "x = 65, y = 65, rule = B3/S23\n" +
         "27b2o$27bobo$29bo4b2o$25b4ob2o2bo2bo$25bo2bobobobob2o$28bobobobo$29b2o" +
         "bobo$33bo2$19b2o$20bo7b2o$20bobo5b2o$21b2o3$35bobo$26b2o8b2o$25bobo8b" +
@@ -247,7 +248,7 @@ describe("Game of Life", () => {
       const finalResult = df.removeTrailingDeadCells(result);
       // console.log(finalResult);
       // const reallyFinal = game.addRepeatedLines(finalResult)
-      const result1 = game.compressRepeatedLines(finalResult);
+      const result1 = df.compressRepeatedLines(finalResult);
 
       // const expectedLines = expected.split("$");
       // const finalResultLines = result1.split("$");
