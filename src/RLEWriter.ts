@@ -57,7 +57,7 @@ export class RLEWriter {
     let shortened = ""
     while (rle.length > 70) {
       shortened += rle.substring(0, 69) + "\n";
-      console.log(shortened);
+      // console.log(shortened);
       rle = rle.substring(69);
     }
 
