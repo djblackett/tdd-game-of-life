@@ -276,8 +276,17 @@ describe("Game of Life", () => {
       expect(finalResult).toEqual(expected);
     });
 
-    test("loaf", () => {
-      const rleReader = new RLEReader();
+    test("loaf", async () => {
+      const game = new GameOfLife();
+      const result = await game.endToEnd("test/rle-files/loaf.rle", 5);
+      const expected = "#N Loaf\n" +
+        "#C A very common 7-cell still life.\n" +
+        "#C www.conwaylife.com/wiki/index.php?title=Loaf\n" +
+        "x = 4, y = 4, rule = B3/S23\n" +
+        "b2o$o2bo$bobo$2bo!"
+
+
+      expect(result).toEqual(expected);
 
     })
   })
