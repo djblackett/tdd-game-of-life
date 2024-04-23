@@ -90,6 +90,6 @@ export const snarkArr = [
   ]
 ]
 
-console.log(snarkArr.length);
+// console.log(snarkArr.length);
 // const line = "8b2o$8bobo$10bo4b2o$6b4ob2o2bo2bo$6bo2bo3bobob2o$9bobobobo$10b2obobo$\n"
 // console.log(line.length);

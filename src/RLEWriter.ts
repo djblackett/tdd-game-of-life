@@ -86,12 +86,15 @@ export class RLEWriter {
     const noRepeatsGrid: string[] = []
 
     for (let i = 0; i < lines.length; i++) {
-      if (lines[i] === lines[i + 1]) {
+      let isEmptyRow = lines[i] === "" || lines[i].match(/^b+$/);
+      if (isEmptyRow) {
         isRun = true;
         count++;
-      } else if (lines[i] !== lines[i + 1] && isRun) {
+      } else if (!isEmptyRow && isRun) {
         // lines.splice(i - count + 1, count, lines[i] + (count + 1).toString())
-        noRepeatsGrid.push(lines[i].concat((count + 1).toString()));
+        // noRepeatsGrid.push(lines[i].concat((count - 1 ).toString()));
+        noRepeatsGrid[noRepeatsGrid.length - 1] += (count).toString()
+        noRepeatsGrid.push(lines[i])
         console.log(lines[i]);
         console.log(noRepeatsGrid[noRepeatsGrid.length - 1]);
         isRun = false;

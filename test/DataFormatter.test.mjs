@@ -73,7 +73,7 @@ bob$2bo$3o!`
     expect(result).toEqual(expected)
   });
 
-  // too many things at once
+
   test("should add a line of empty cells after a line with a number at the end", () => {
     const reader = new RLEReader();
     const input = snark0;
@@ -92,7 +92,8 @@ bob$2bo$3o!`
     expect(grid).to.deep.equal(expected)
   })
 
-  test.skip("should remove empty lines and add number to end of previous line (before previous '$')", () => {
+  // compressRepeatedLines refactor
+  test("should remove empty lines and add number to end of previous line (before previous '$')", () => {
     const reader = new RLEReader();
     const input = snark0;
     const expected = snark1;
@@ -104,9 +105,6 @@ bob$2bo$3o!`
     result = writer.shortenRLEString(result)
     expect(result).toEqual(expected)
   })
-
-
-
 
 
 });

@@ -217,12 +217,12 @@ describe("Game of Life", () => {
         "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b\n" +
         "3o4bo2b2obobo$9b3o4b2o4bo$10bobo$11b2o!"
 
-      console.log("Length of first line:", "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b".length);
+      // console.log("Length of first line:", "22bo$21bobo$11b2o6b2o3bo9b2o$10bobo4b2obo3bo9b2o$2o7b3o4b3obo3bo$2o6b".length);
 
       const result = await game.readAndOutputGeneration("test/gosper-gun.rle", 3);
       const finalResult = df.removeTrailingDeadCells(result);
       const shortened = df.shortenRLEString(finalResult);
-      console.log(shortened.split("\n"));
+      // console.log(shortened.split("\n"));
       expect(shortened).toEqual(expected);
     });
 
