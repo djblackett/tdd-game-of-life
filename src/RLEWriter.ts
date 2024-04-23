@@ -29,7 +29,6 @@ export class RLEWriter {
       }
       charArr[i] = str;
     }
-    // return this.shortenRLEString(charArr.join("$") + "!");
     return charArr.join("$") + "!"
   }
 
@@ -61,7 +60,6 @@ export class RLEWriter {
     let shortened = ""
     while (text.length > 70) {
       shortened += text.substring(0, 69) + "\n";
-      // console.log(shortened);
       text = text.substring(69);
     }
 
@@ -96,7 +94,6 @@ export class RLEWriter {
         noRepeatsGrid.push(lines[i])
         isRun = false;
         count = 1;
-        // i -= count
       }
       else {
         noRepeatsGrid.push(lines[i])
