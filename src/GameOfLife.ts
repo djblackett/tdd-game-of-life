@@ -1,4 +1,3 @@
-import fs from "node:fs";
 import { Board } from "./Board";
 import { DataFormatter } from "./DataFormatter";
 import { RLEReader } from "./RLEReader";
@@ -31,7 +30,6 @@ export class GameOfLife {
     const height = shape.length + generations + 3
     const width = shape[0].length + generations + 3
     const board = new Board(height, width);
-
     board.placeShape(shape, 2, 2)
 
     for (let i = 0; i < generations; i++) {
@@ -47,7 +45,6 @@ export class GameOfLife {
     return  df.outputRLE(boundingBox)
   }
 
-
   getFullOutputAfterGenerations(inputPattern: string, generations: number) {
     const reader = new RLEReader();
     const shape = reader.parseRLEString(inputPattern);
@@ -58,7 +55,7 @@ export class GameOfLife {
   }
 
   async readAndOutputGeneration(filepath: string, generations: number) {
-    const inputString = DataFormatter.readFile(filepath);
+    const inputString = RLEReader.readFile(filepath);
     return this.getFullOutputAfterGenerations(inputString, generations);
   }
 
