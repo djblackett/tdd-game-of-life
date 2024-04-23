@@ -42,31 +42,35 @@ export class RLEWriter {
   shortenRLEString(rle: string) {
     const stringArr = rle.split("\n");
     const encodedLinesOnly: string[] = []
+    const metadata: string[] = [];
+
     for (let line of stringArr) {
       if (!line.startsWith("#") && !line.startsWith("x")) {
         encodedLinesOnly.push(line);
+      } else {
+        metadata.push(line);
       }
     }
 
-    rle = encodedLinesOnly.join("\n");
+    let text = encodedLinesOnly.join("\n");
 
-    if (rle.length <= 70) {
-      return rle
+    if (text.length <= 70) {
+      return metadata.join("\n") + "\n" + text
     }
 
     let shortened = ""
-    while (rle.length > 70) {
-      shortened += rle.substring(0, 69) + "\n";
+    while (text.length > 70) {
+      shortened += text.substring(0, 69) + "\n";
       // console.log(shortened);
-      rle = rle.substring(69);
+      text = text.substring(69);
     }
 
-    shortened += rle;
+    shortened += text;
     if (shortened.endsWith("\n")) {
       shortened = shortened.substring(0, shortened.length - 1);
     }
 
-    return stringArr[0] + "\n" + shortened
+    return metadata.join("\n") + "\n" + shortened
   }
 
   removeTrailingDeadCells(rle: string) {
