@@ -36,7 +36,7 @@ export class RLEReader {
         this.metadata.push(line);
       }
 
-      if (line.charAt(0).match(/[bo\d]/)) {
+      if (line.charAt(0).match(/[bo\d$]/)) {
         data += line;
       }
     }
