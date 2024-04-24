@@ -20,7 +20,7 @@ const block = `#N Block
 x = 2, y = 2, rule = B3/S23
 2o$2o!`
 
-export const gliderGunGrid =[
+export const gliderGunGrid = [
   [
     'b', 'b', 'b', 'b', 'b', 'b', 'b',
     'b', 'b', 'b', 'b', 'b', 'b', 'b',
@@ -231,6 +231,9 @@ describe("Game of Life", () => {
       const game = new GameOfLife();
       const metadata = ["x = 65, y = 65, rule = B3/S23\n"]
       const rleWriter = new RLEWriter(metadata);
+      const reader = new RLEReader();
+      const example = RLEReader.readFile("test/rle-files/snark-loop.rle")
+      // console.log(reader.parseRLEString(example));
 
       const expected = "x = 65, y = 65, rule = B3/S23\n" +
         "27b2o$27bobo$29bo4b2o$25b4ob2o2bo2bo$25bo2bobobobob2o$28bobobobo$29b2o" +
@@ -260,6 +263,29 @@ describe("Game of Life", () => {
       expect(result1).toEqual(expected);
     })
 
+    // test that snarkloop will be return properly with no evolution
+    test("should return snark loop rle with no evolution", () => {
+      const reader = new RLEReader()
+      const string = RLEReader.readFile("test/rle-files/snark-loop.rle")
+      const expected = "x = 65, y = 65, rule = B3/S23\n" +
+        "27b2o$27bobo$29bo4b2o$25b4ob2o2bo2bo$25bo2bo3bobob2o$28bobobobo$29b2o\n" +
+        "bobo$33bo2$19b2o$20bo8bo$20bobo5b2o$21b2o$35bo$36bo$34b3o2$25bo$25b2o\n" +
+        "$24bobo4b2o22bo$31bo21b3o$32b3o17bo$34bo17b2o2$45bo$46b2o12b2o$45b2o14b\n" +
+        "o$3b2o56bob2o$4bo9b2o37bo5b3o2bo$2bo10bobo37b2o3bo3b2o$2b5o8bo5b2o35b\n" +
+        "2obo$7bo13bo22b2o15bo$4b3o12bobo21bobo12b3o$3bo15b2o22bo13bo$3bob2o35b\n" +
+        "2o5bo8b5o$b2o3bo3b2o37bobo10bo$o2b3o5bo37b2o9bo$2obo56b2o$3bo14b2o$3b\n" +
+        "2o12b2o$19bo2$11b2o17bo$12bo17b3o$9b3o21bo$9bo22b2o4bobo$38b2o$39bo2$\n" +
+        "28b3o$28bo$29bo$42b2o$35b2o5bobo$35bo8bo$44b2o2$31bo$30bobob2o$30bobo\n" +
+        "bobo$27b2obobo3bo2bo$27bo2bo2b2ob4o$29b2o4bo$35bobo$36b2o!";
+
+      expect(string).toEqual(expected);
+    })
+
+    //convert to grid, then back to rle
+    test("", () => {
+
+    })
+
     // find more shapes to test
 
     test("blinker", async () => {
@@ -285,9 +311,42 @@ describe("Game of Life", () => {
         "x = 4, y = 4, rule = B3/S23\n" +
         "b2o$o2bo$bobo$2bo!"
 
+      expect(result).toEqual(expected);
+    });
+
+    test("mozart", async () => {
+      const game = new GameOfLife();
+      const result = await game.endToEnd("test/rle-files/mozart.rle", 5);
+      const expected = "#N mozart.rle\n" +
+        "#C https://conwaylife.com/wiki/Composers\n" +
+        "#C https://www.conwaylife.com/patterns/mozart.rle\n" + "x = 11, y = 7, rule = B3/S23\n" +
+        "2o7b2o$2o7b2o2$5bo$4bobo$4bobo$5bo!"
 
       expect(result).toEqual(expected);
-
     })
+
+
+    // todo - update x and y if they change during evolution
+    // todo - double check that multiplier digits aren't being truncated
+    test.skip("lobster", async () => {
+      const game = new GameOfLife();
+      const reader = new RLEReader();
+      const example = RLEReader.readFile("test/rle-files/lobster.rle");
+      console.log(reader.parseRLEString(example));
+      const result = await game.endToEnd("test/rle-files/lobster.rle", 1);
+      const expected = "#N lobster.rle\n" +
+        "#O Matthias Merzenich, 2011\n" +
+        "#C https://conwaylife.com/wiki/Lobster_(spaceship)\n" +
+        "#C https://www.conwaylife.com/patterns/lobster.rle\n" +
+        "x = 27, y = 27, rule = B3/S23\n" +
+        "13b2o$13bobo$13bo$13bo2b3o$13bob4o$13bob2o$13bo2bo$14b2o3$16b2ob2o$16b\n" +
+        "2o3bo$16b2o$7o13b2o$o6bo12bo3bo$bo2b2obo10b2o2bo2bo$3b4o3b3o7bobo2bo$\n" +
+        "3b2o5b3o6bo2bobo$3b2o10bo4bo$10bo4bobob2o$10bo2b2obob3o3bo$11bobo9bo2b\n" +
+        "o$15b3o6bobo$21bo3bo$14bo2bo2bobo$15b2o6bo$21b2o!"
+
+        expect(result).toEqual(expected);
+    })
+
+    // test that lobster will be return properly with no evolution
   })
 })
