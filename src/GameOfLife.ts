@@ -5,8 +5,16 @@ import { RLEWriter } from "./RLEWriter";
 
 export class GameOfLife {
 
-  evolve(currentBoard: Board, height: number, width: number) {
-    const newBoard: string[][] = structuredClone(currentBoard.grid);
+  evolve(currentBoard: Board | string[][], height: number, width: number) {
+    let newBoard;
+    if (currentBoard instanceof Board) {
+      newBoard = structuredClone(currentBoard.grid);
+    } else {
+      newBoard = new Board(currentBoard.length, currentBoard[0].length);
+      newBoard.setGrid(currentBoard);
+      currentBoard = newBoard;
+      newBoard = structuredClone(currentBoard.grid);
+    }
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
         const char = currentBoard.grid[i][j];
