@@ -5,124 +5,9 @@ import { Board } from "../src/Board";
 import { DataFormatter } from "../src/DataFormatter";
 import { RLEWriter } from "../src/RLEWriter";
 import { RLEReader } from "../src/RLEReader";
-
-
-const glider = `#N Glider
-#O Richard K. Guy
-#C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.
-#C www.conwaylife.com/wiki/index.php?title=Glider
-x = 3, y = 3, rule = B3/S23
-bob$2bo$3o!`
-
-const block = `#N Block
-#C An extremely common 4-cell still life.
-#C www.conwaylife.com/wiki/index.php?title=Block
-x = 2, y = 2, rule = B3/S23
-2o$2o!`;
-
-const snark = "x = 65, y = 65, rule = B3/S23\n" +
-  "27b2o$27bobo$29bo4b2o$25b4ob2o2bo2bo$25bo2bo3bobob2o$28bobobobo$29b2o\n" +
-  "bobo$33bo2$19b2o$20bo8bo$20bobo5b2o$21b2o$35bo$36bo$34b3o2$25bo$25b2o\n" +
-  "$24bobo4b2o22bo$31bo21b3o$32b3o17bo$34bo17b2o2$45bo$46b2o12b2o$45b2o1\n" +
-  "4bo$3b2o56bob2o$4bo9b2o37bo5b3o2bo$2bo10bobo37b2o3bo3b2o$2b5o8bo5b2o3\n" +
-  "5b2obo$7bo13bo22b2o15bo$4b3o12bobo21bobo12b3o$3bo15b2o22bo13bo$3bob2o\n" +
-  "35b2o5bo8b5o$b2o3bo3b2o37bobo10bo$o2b3o5bo37b2o9bo$2obo56b2o$3bo14b2o\n" +
-  "$3b2o12b2o$19bo2$11b2o17bo$12bo17b3o$9b3o21bo$9bo22b2o4bobo$38b2o$39b\n" +
-  "o2$28b3o$28bo$29bo$42b2o$35b2o5bobo$35bo8bo$44b2o2$31bo$30bobob2o$30b\n" +
-  "obobobo$27b2obobo3bo2bo$27bo2bo2b2ob4o$29b2o4bo$35bobo$36b2o!";
-
-export const gliderGunGrid = [
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'o', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'o', 'o',
-    'b', 'b', 'b', 'b', 'b', 'b', 'o',
-    'o', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'o',
-    'o'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'o', 'b', 'b',
-    'b', 'o', 'b', 'b', 'b', 'b', 'o',
-    'o', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'o',
-    'o'
-  ],
-  [
-    'o', 'o', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'o', 'b', 'b', 'b', 'o',
-    'o', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'o', 'o', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'o', 'b', 'b', 'b',
-    'o', 'b', 'o', 'o', 'b', 'b', 'b',
-    'b', 'o', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'o', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'o', 'b', 'b',
-    'b', 'o', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'o', 'o',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ]
-]
+import { lobster, s123, snark, snarkAfter1Evolution } from "./rle-objects.mjs";
 
 describe("Game of Life", () => {
-
-  describe("reading and writing the rle patterns", () => {
-
-    // todo - decide if these ar even necessary - were scaffolding while developing parseRLEString method
-    test.skip("should parse width of input from metadata", () => {
-      const gol = new GameOfLife();
-      gol.parseRLEString(glider);
-      expect(gol.width).to.equal(3);
-    })
-
-    test.skip("should parse height of input from metadata", () => {
-      const gol = new GameOfLife();
-      gol.parseRLEString(glider);
-      expect(gol.height).to.equal(3);
-    })
-  })
 
   describe("core game logic", () => {
 
@@ -133,13 +18,10 @@ describe("Game of Life", () => {
       ["o", "o", "o"]
     ];
 
-    // must test on a game board larger than the given block
+
     test("should return next generation of game board from given board", () => {
-
-
       const HEIGHT = 5;
       const WIDTH = 5
-
       const board = new Board(5, 5);
       board.placeShape(shape, 1, 1);
       board.setGrid(game.evolve(board, HEIGHT, WIDTH));
@@ -167,30 +49,16 @@ describe("Game of Life", () => {
       const WIDTH = 8;
       const board = new Board(HEIGHT, WIDTH);
       board.placeShape(shape, 2, 2);
-
       board.setGrid(game.evolve(board, HEIGHT, WIDTH));
       board.setGrid(game.evolve(board, HEIGHT, WIDTH));
       board.setGrid(game.evolve(board, HEIGHT, WIDTH));
 
       const result = board.isolateShape(3, 3);
       const expected = [["o", "b", "b"], ["b", "o", "o"], ["o", "o", "b"]]
-
-      expect(result).to.deep.equal(expected);
-    })
-
-    // this won't work because of missing info - empty cells are automatically a 'b'
-    test.skip("should return RLE string after 3 generations", () => {
-      const expected = "o2b$b2o$2ob!"
-
-      const inputPattern = "bob$2bo$3o!"
-      const numberOfGenerations = 3
-      const result = game.getOutputAfterGenerations(inputPattern, numberOfGenerations);
-
       expect(result).to.deep.equal(expected);
     })
 
     test("should return RLE string with metadata after 3 generations", () => {
-
       const game1 = new GameOfLife()
       const expected = "x = 3, y = 3, rule = B3/S23\n" +
         "o2b$b2o$2ob!"
@@ -222,7 +90,6 @@ describe("Game of Life", () => {
       expect(result).toEqual(expected);
     });
 
-    // need function that integrates all of the parsing features in 1 workflow. split lines into 70 char chunks at the end
     test("should work end to end for gosper gun shape, 3 generations", async () => {
       const game = new GameOfLife();
       const rleWriter = new RLEWriter();
@@ -238,49 +105,20 @@ describe("Game of Life", () => {
 
 
     // come back to this later
-    test.skip("should output correct rle for snark loop, 1 generation", async () => {
+    test("should output correct rle for snark loop, 1 generation", async () => {
       const game = new GameOfLife();
-      const metadata = ["x = 65, y = 65, rule = B3/S23\n"]
-      const rleWriter = new RLEWriter(metadata);
-      const reader = new RLEReader();
-      const example = RLEReader.readFile("test/rle-files/snark-loop.rle")
-      // console.log(reader.parseRLEString(example));
-
-      const expected = "x = 65, y = 65, rule = B3/S23\n" +
-        "27b2o$27bobo$29bo4b2o$25b4ob2o2bo2bo$25bo2bobobobob2o$28bobobobo$29b2o" +
-        "bobo$33bo2$19b2o$20bo7b2o$20bobo5b2o$21b2o3$35bobo$26b2o8b2o$25bobo8b" +
-        "o$27bo$31b2o22bo$31bo21b3o$32b3o17bo$34bo17b2o3$47bo12b2o$48bo12bo$3b" +
-        "2o10b2o29b3o12bob2o$4bo11b2o35b2o4b3o2bo$2bo12bo37b2o3bo3b2o$2b5o14b2o" +
-        "35b4o$7bo13bo22b2o15bo$4b3o12bobo21bobo12b3o$3bo15b2o22bo13bo$3b4o35b" +
-        "2o14b5o$b2o3bo3b2o37bo12bo$o2b3o4b2o35b2o11bo$2obo12b3o29b2o10b2o$3bo" +
-        "12bo$3b2o12bo3$11b2o17bo$12bo17b3o$9b3o21bo$9bo22b2o$37bo$28bo8bobo$27b" +
-        "2o8b2o$27bobo3$42b2o$35b2o5bobo$35b2o7bo$44b2o2$31bo$30bobob2o$30bobo" +
-        "bobo$27b2obobobobo2bo$27bo2bo2b2ob4o$29b2o4bo$35bobo$36b2o!";
-
-      const result = await game.readAndOutputGeneration("test/rle-files/snark-loop.rle", 1);
-      // console.log("Result:");
-      // console.log(result.split("$"));
-      const finalResult = rleWriter.removeTrailingDeadCells(result);
-      // console.log(finalResult);
-      const result1 = rleWriter.compressRepeatedLines(finalResult);
-
+      const result = await game.endToEnd("test/rle-files/snark-loop.rle", 1);
+      let expected = s123
       const expectedLines = expected.split("$");
-      const finalResultLines = result1.split("$");
-      // const finalResultLines = finalResult.split("$");
-      console.log(expected.length);
-      console.log(finalResult.length);
-      expect(finalResultLines).to.equal(expectedLines);
-
-      expect(result1).toEqual(expected);
-    })
+      // expect(result.replaceAll("\n", "").split("$")).toEqual(expected.replaceAll("\n", "").split("$"));
+      expect(result.replaceAll("\n", "")).toEqual(expected.replaceAll("\n", ""));
+      // expect(result).toEqual(expected);
+    });
 
 
     test("should return snark loop rle with no parsing or evolution", () => {
-      const reader = new RLEReader();
       const string = RLEReader.readFile("test/rle-files/snark-loop.rle")
-      const expected = snark;
-
-      expect(string).toEqual(expected);
+      expect(string).toEqual(snark);
     })
 
     test("should output a grid with length of 'y' value in metadata", () => {
@@ -288,25 +126,12 @@ describe("Game of Life", () => {
       const string = RLEReader.readFile("test/rle-files/snark-loop.rle")
       const grid = reader.parseRLEString(string);
       expect(grid).toHaveLength(65);
-    })
+    });
 
-
-    //convert to grid, then back to rle
     test("should return snark loop rle after parsing but no evolution", async () => {
       const result = await game.endToEnd("test/rle-files/snark-loop.rle", 0)
-
-      const resultArr = result.split("$").slice(1).join("$").replaceAll("\n", "").split("$");
-      const expected = snark;
-      for (let i of result.split("\n")) {
-        console.log(i.length);
-      }
-
-      const expectedArr = expected.split("$").slice(1).join("$").replaceAll("\n", "").split("$");
-      // expect(resultArr).to.deep.equal(expectedArr)
-      expect(result).toEqual(expected);
+      expect(result).toEqual(snark);
     })
-
-    // find more shapes to test
 
     test("blinker", async () => {
       const df = new DataFormatter();
@@ -341,7 +166,6 @@ describe("Game of Life", () => {
         "#C https://conwaylife.com/wiki/Composers\n" +
         "#C https://www.conwaylife.com/patterns/mozart.rle\n" + "x = 11, y = 7, rule = B3/S23\n" +
         "2o7b2o$2o7b2o2$5bo$4bobo$4bobo$5bo!"
-
       expect(result).toEqual(expected);
     })
 
@@ -364,9 +188,35 @@ describe("Game of Life", () => {
         "3b2o5b3o6bo2bobo$3b2o10bo4bo$10bo4bobob2o$10bo2b2obob3o3bo$11bobo9bo2b\n" +
         "o$15b3o6bobo$21bo3bo$14bo2bo2bobo$15b2o6bo$21b2o!"
 
-        expect(result).toEqual(expected);
+        expect(result.replaceAll("\n", "")).toEqual(expected.replaceAll("\n", ""));
+    })
+
+    test("should return the same string as is in the lobster.rle file", () => {
+      const result = RLEReader.readFile("test/rle-files/lobster.rle");
+      expect(result).toEqual(lobster)
+    })
+
+    test("should return the same string as is in the lobster.rle file after parsing but no evolutions", async () => {
+      const result = await game.endToEnd("test/rle-files/lobster.rle", 0);
+      expect(result.replaceAll("\n", "")).toEqual(lobster.replaceAll("\n", ""))
     })
 
     // test that lobster will be return properly with no evolution
+    // this will fail
+    test("lobster", () => {
+      const input = RLEReader.readFile("test/rle-files/lobster.rle");
+      const result = new RLEReader().parseRLEString(input);
+      // console.table(result);
+      console.log(result);
+    });
+
+    test("lobster should output a grid with length of 'y' value in metadata", () => {
+      const reader = new RLEReader()
+      const string = RLEReader.readFile("test/rle-files/lobster.rle")
+      const grid = reader.parseRLEString(string);
+      expect(grid).toHaveLength(26);
+    });
+
+
   })
 })

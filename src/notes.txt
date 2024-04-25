@@ -1,11 +1,15 @@
 2024-04-25
 
-- Snark Loop failing test was due to human error in copying the rle text for the 2nd generation (Yeah, I'm dumb)
+I had some setbacks with the GameOfLife project and I spent a great deal of time debugging that I didn't record.
+I hope that the following explanation helps justify that choice, and that my videos before and after this are adequate
+for getting course credit. I most definitely put the hours in to complete it.
 
+- Snark Loop failing test was due to human error in copying the rle text for the 2nd generation (Yeah, I'm dumb)
+- Added extra tests for lobster shape to debug UI. Was also human error... no bug in UI.
 - built a minimal UI in React to help debug. Did not record since UI testing isn't covered in course.
 
 The repo may look like a lot changed at once, but very little (if anything) changed in the core project files
-built with TDD.
+built with TDD. A few imports changed from moving large example arrays and strings to separate files, etc.
 
 I spent hours debugging the code to narrow down the problems. I figured no one wanted to see that, and recording it
 would have slowed it down. Not to mention increased anxiety from the feeling of someone watching...
