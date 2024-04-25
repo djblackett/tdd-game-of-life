@@ -1,7 +1,7 @@
 import { describe, test } from "vitest";
 import { DataFormatter } from "../src/DataFormatter";
 import { expect } from "chai";
-import { gliderGunGrid } from "./GameOfLife.test.mjs";
+import { gliderGunGrid } from "./rle-objects.mjs";
 import { snark0, snark1, snarkArr } from "./snark-fragments.mjs";
 import { RLEReader } from "../src/RLEReader";
 import { RLEWriter } from "../src/RLEWriter";

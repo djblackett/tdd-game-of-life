@@ -92,23 +92,3 @@ export class GameOfLife {
   }
 }
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
-async function play() {
-  const game = new GameOfLife()
-  const board = game.outputGame()
-  // console.log("width", board.width);
-  // console.log("height:", board.height);
-
-  for (let i = 0; i < 5; i++) {
-      console.table(board.grid);
-    console.log(board.grid);
-      board.setGrid(game.evolve(board, 9, 9));
-      await sleep(500)
-  }
-
-  // console.log("width", board.width);
-  // console.log("height:", board.height);
-}
-
-// play()

@@ -24,7 +24,7 @@ export class RLEReader {
     const lines = input.split("\n");
     let structure;
     let data = ""
-    let metadata = [];
+    // let metadata = [];
 
     for (let line of lines) {
       if (line.startsWith("#")) {
