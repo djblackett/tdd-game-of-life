@@ -1,98 +1,20 @@
 import React, { useState } from "react";
 import { GameOfLife } from "./GameOfLife";
 import { Board } from "./Board";
-// @ts-ignore
 import {snarkLoop } from "./rle-objects/snarkLoop";
-// @ts-ignore
-import {lobster} from "./rle-objects/lobster"
+import {lobster} from "./rle-objects/lobster";
+import { gliderGun } from "./rle-objects/glider-gun";
+import { glider } from "./rle-objects/glider";
 
 const game = new GameOfLife();
-const glider = [
-  ["b", "o", "b"],
-  ["b", "b", "o"],
-  ["o", "o", "o"]
-]
 
+const gliderGrid = glider;
 const lobsterGrid = lobster;
+const gliderGunGrid = gliderGun;
+const snarkLoopGrid = snarkLoop
 
-const gliderGunGrid = [
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'o', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'o', 'o',
-    'b', 'b', 'b', 'b', 'b', 'b', 'o',
-    'o', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'o',
-    'o'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'o', 'b', 'b',
-    'b', 'o', 'b', 'b', 'b', 'b', 'o',
-    'o', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'o',
-    'o'
-  ],
-  [
-    'o', 'o', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'o', 'b', 'b', 'b', 'o',
-    'o', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'o', 'o', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'o', 'b', 'b', 'b',
-    'o', 'b', 'o', 'o', 'b', 'b', 'b',
-    'b', 'o', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'o', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'o', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'o', 'b', 'b',
-    'b', 'o', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ],
-  [
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'o', 'o',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b', 'b', 'b', 'b', 'b', 'b', 'b',
-    'b'
-  ]
-]
-const snark_loop = snarkLoop
-
-const grid = snark_loop
-
+// change this grid var to one of the above grids to swap shape displayed
+const grid = lobsterGrid
 
 const board = new Board(grid.length + 10, grid[0].length + 10)
 board.placeShape(grid, 5, 5);
@@ -103,12 +25,9 @@ const App = () => {
 
   const handleGeneration = () => {
     setState(structuredClone(game.evolve(state, state.length, state[0].length)))
-    const newBoard = game.evolve(state, state.length, state[0].length)
-    // console.table(newBoard);
-  }
+  };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    console.log("Key pressed");
     event.preventDefault();
     if (event.key === " ") {
       setState(structuredClone(game.evolve(state, state.length, state[0].length)))
@@ -120,14 +39,11 @@ const App = () => {
       <h1>Game of Life</h1>
       <h2>Board visualizer</h2>
       <div className={"grid"}>
-        {state.map((row: string[], index) => <div className={"row"} key={"row" + index}>{row.map((cell, idx) => cell === "o" ? <div className={"cell"} key={"row" + index + "column" + idx}>{cell}</div> : <div className={"dead"} key={"row" + index + "column" + idx}>{cell}</div>)}</div>)}
+        {state.map((row: string[], index) => <div className={"row"} key={"row" + index}>{row.map((cell, idx) => cell === "o" ? <div className={"cell"} key={"row" + index + "column" + idx}></div> : <div className={"dead"} key={"row" + index + "column" + idx}></div>)}</div>)}
       </div>
-
       <button id={"evolve"} onClick={handleGeneration} onKeyDown={handleKeyDown}>Evolve</button>
       <p>Press button or space bar to evolve</p>
-
     </div>
-
   )
 }
 

@@ -1,0 +1,11 @@
+2024-04-25
+
+- Snark Loop failing test was due to human error in copying the rle text for the 2nd generation (Yeah, I'm dumb)
+
+- built a minimal UI in React to help debug. Did not record since UI testing isn't covered in course.
+
+The repo may look like a lot changed at once, but very little (if anything) changed in the core project files
+built with TDD.
+
+I spent hours debugging the code to narrow down the problems. I figured no one wanted to see that, and recording it
+would have slowed it down. Not to mention increased anxiety from the feeling of someone watching...

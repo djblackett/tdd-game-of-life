@@ -29,7 +29,7 @@
     "npm": ">=10"
   },
   "scripts": {
-    "start": "ts-node src/GameOfLife.ts",
+    "start": "NODE_OPTIONS=\"--loader ts-node/esm\" ts-node src/main ",
     "test": "vitest run",
     "autotest": "vitest watch",
     "format": "prettier --write .",

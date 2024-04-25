@@ -1,4 +1,4 @@
-export const snarkLoop = [
+export const snarkLoop: string[][] = [
   [
     'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b',
     'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b',

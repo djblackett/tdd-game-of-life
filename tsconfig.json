@@ -1,17 +1,11 @@
 {
-  "compilerOptions": {
-    "target": "es2022",
-    "module": "nodenext",
-    "strict": true,
-    "skipLibCheck": true,
-    "noEmit": true,
-    "jsx": "react",
     "compilerOptions": {
-      "target": "ES2020",
-      "useDefineForClassFields": true,
-      "lib": ["ES2020", "DOM", "DOM.Iterable"],
-      "module": "ESNext",
+      "target": "ES2022",
+//      "useDefineForClassFields": true,
+      "lib": ["ES2022", "DOM", "DOM.Iterable"],
+      "module": "nodenext",
       "skipLibCheck": true,
+      "esModuleInterop": true,
 
       /* Bundler mode */
       "moduleResolution": "bundler",
@@ -25,9 +19,8 @@
       "strict": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
-      "noFallthroughCasesInSwitch": true
+      "noFallthroughCasesInSwitch": true,
     },
-    "include": ["src"],
-    "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
   }
-}
