@@ -24,7 +24,6 @@ export class RLEReader {
     const lines = input.split("\n");
     let structure;
     let data = ""
-    // let metadata = [];
 
     for (let line of lines) {
       if (line.startsWith("#")) {
@@ -100,17 +99,5 @@ export class RLEReader {
     } else {
       throw new Error("RLE string could not be parsed");
     }
-  }
-
-  addRepeatedLines(rle: string) {
-    const arr = rle.split("$");
-    for (let i = 0; i < arr.length; i++) {
-      let matcher = arr[i].charAt(arr[i].length - 1).match("\d+")
-      if (matcher) {
-        arr[i] = (arr[i] + "$").repeat(parseInt(matcher[1]));
-        arr[i] = arr[i].substring(0, arr[i].length - 1)
-      }
-    }
-    return arr.join("$")
   }
 }
