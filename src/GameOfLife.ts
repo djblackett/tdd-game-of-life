@@ -56,8 +56,18 @@ export class GameOfLife {
   getFullOutputAfterGenerations(inputPattern: string, generations: number) {
     const reader = new RLEReader();
     const shape = reader.parseRLEString(inputPattern);
-    const writer = new RLEWriter(reader.getMetadata())
     const boundingBox = this.getBoundingBoxAfterGenerations(shape, generations)
+
+    let structure = reader.getMetadata()[reader.getMetadata().length - 1]
+    const structureArr = structure.split(",")
+    let width = boundingBox[0].length
+    let height = boundingBox.length
+    // console.log(structure);
+    structureArr[0] = "x = " + width.toString();
+    structureArr[1] = " y = " + height.toString();
+    reader.getMetadata()[reader.getMetadata().length - 1] = structureArr.join(",");
+
+    const writer = new RLEWriter(reader.getMetadata())
     const patternString = writer.outputRLE(boundingBox);
     return  reader.metadata.join("\n") + "\n" + patternString
   }
