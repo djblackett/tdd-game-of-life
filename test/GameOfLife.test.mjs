@@ -139,7 +139,7 @@ describe("Game of Life", () => {
         "#O John Conway\n" +
         "#C A period 2 oscillator that is the smallest and most common oscillator.\n" +
         "#C www.conwaylife.com/wiki/index.php?title=Blinker\n" +
-        "x = 3, y = 1, rule = B3/S23\n" +
+        "x = 1, y = 3, rule = B3/S23\n" +
         "o$o$o!";
 
       const result = await game.readAndOutputGeneration("test/rle-files/blinker.rle", 1);
@@ -172,7 +172,7 @@ describe("Game of Life", () => {
 
     // todo - update x and y if they change during evolution
     // todo - double check that multiplier digits aren't being truncated
-    test.skip("should output rle for 2nd generation of Lobster", async () => {
+    test("should output rle for 2nd generation of Lobster", async () => {
       const game = new GameOfLife();
       const reader = new RLEReader();
       const example = RLEReader.readFile("test/rle-files/lobster.rle");
@@ -183,10 +183,10 @@ describe("Game of Life", () => {
         "#C https://conwaylife.com/wiki/Lobster_(spaceship)\n" +
         "#C https://www.conwaylife.com/patterns/lobster.rle\n" +
         "x = 27, y = 27, rule = B3/S23\n" +
-        "13b2o$13bobo$13bo$13bo2b3o$13bob4o$13bob2o$13bo2bo$14b2o3$16b2ob2o$16b\n" +
-        "2o3bo$16b2o$7o13b2o$o6bo12bo3bo$bo2b2obo10b2o2bo2bo$3b4o3b3o7bobo2bo$\n" +
-        "3b2o5b3o6bo2bobo$3b2o10bo4bo$10bo4bobob2o$10bo2b2obob3o3bo$11bobo9bo2b\n" +
-        "o$15b3o6bobo$21bo3bo$14bo2bo2bobo$15b2o6bo$21b2o!"
+        "14bo$13b2o$13bobo$17b2o$13b2o2b2o$13b3o$15bo$14b2o3$15bo3bo$16b5o$17b\n" +
+        "o2b2o$b2ob2o14b2o$2o2b2obo$2bo2b3o2bo8bo3b3o$11bo6b2o2b4o$3b2o6b2o5b2o\n" +
+        "2bo$3b2o6bo4b2o$10b2o3b3ob2o$11b3o5b2o3bo$12b2o10b3o$16b2o6b3o$15b2o$\n" +
+        "15b2o3b3o$15b2o4b2o$21b2o!"
 
         expect(result.replaceAll("\n", "")).toEqual(expected.replaceAll("\n", ""));
     })
