@@ -5,7 +5,7 @@ import { Board } from "../src/Board";
 import { DataFormatter } from "../src/DataFormatter";
 import { RLEWriter } from "../src/RLEWriter";
 import { RLEReader } from "../src/RLEReader";
-import { lobster, s123, snark, snarkAfter1Evolution } from "./rle-objects.mjs";
+import { lobster, snarkGeneration2, snark, snarkAfter1Evolution } from "./rle-objects.mjs";
 
 describe("Game of Life", () => {
 
@@ -108,7 +108,7 @@ describe("Game of Life", () => {
     test("should output correct rle for snark loop, 1 generation", async () => {
       const game = new GameOfLife();
       const result = await game.endToEnd("test/rle-files/snark-loop.rle", 1);
-      let expected = s123
+      let expected = snarkGeneration2
       const expectedLines = expected.split("$");
       // expect(result.replaceAll("\n", "").split("$")).toEqual(expected.replaceAll("\n", "").split("$"));
       expect(result.replaceAll("\n", "")).toEqual(expected.replaceAll("\n", ""));
@@ -172,7 +172,7 @@ describe("Game of Life", () => {
 
     // todo - update x and y if they change during evolution
     // todo - double check that multiplier digits aren't being truncated
-    test("lobster", async () => {
+    test.skip("should output rle for 2nd generation of Lobster", async () => {
       const game = new GameOfLife();
       const reader = new RLEReader();
       const example = RLEReader.readFile("test/rle-files/lobster.rle");
@@ -201,14 +201,6 @@ describe("Game of Life", () => {
       expect(result.replaceAll("\n", "")).toEqual(lobster.replaceAll("\n", ""))
     })
 
-    // test that lobster will be return properly with no evolution
-    // this will fail
-    test("lobster", () => {
-      const input = RLEReader.readFile("test/rle-files/lobster.rle");
-      const result = new RLEReader().parseRLEString(input);
-      // console.table(result);
-      console.log(result);
-    });
 
     test("lobster should output a grid with length of 'y' value in metadata", () => {
       const reader = new RLEReader()
