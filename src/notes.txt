@@ -15,4 +15,8 @@ I spent hours debugging the code to narrow down the problems. I figured no one w
 would have slowed it down. Not to mention increased anxiety from the feeling of someone watching...
 
 
+2024-04-26
+Copying and pasting the 2nd generation of the Lobster shape again for the expected value in the test fixed it.
+I really don't know how I ended up with the wrong value the first time around. No code was changed to make it pass.
+
 
