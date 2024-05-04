@@ -1,23 +1,54 @@
-# New JavaScript Project
+# Game Of Life
 
-An empty project with JavaScript testing tools preconfigured. Do whatever you like with it.
+## Description
 
-## Prerequisites
+Conway's Game of Life implemented as a program that reads am RLE file, computes and outputs the results of the specified 
+generations also in RLE format. 
 
-You'll need a recent [Node.js](https://nodejs.org/) version. Then download this project's dependencies with:
+A basic web interface was created for testing purposes, but it's not the goal of this project. 
 
-    npm install
+This project was completed as a final assignment for University of Helsinki's course Test-Driven Development (https://tdd.mooc.fi/)
+## How to run
 
-## Developing
+Run program with `npm start` followed by arguments for `filepath` and `number_of_generations`   
 
-Run tests once
+For example:  
+`npm start test/rle-files/gosper-gun.rle 3`
 
-    npm run test
+The test folder contains a subfolder `rle-files`, which contains a few rle files for your convenience. 
+The program doesn't modify the input files.
 
-Run tests continuously
+[//]: # (# New JavaScript Project)
 
-    npm run autotest
+[//]: # ()
+[//]: # (An empty project with JavaScript testing tools preconfigured. Do whatever you like with it.)
 
-Code reformat
+[//]: # ()
+[//]: # (## Prerequisites)
 
-    npm run format
+[//]: # ()
+[//]: # (You'll need a recent [Node.js]&#40;https://nodejs.org/&#41; version. Then download this project's dependencies with:)
+
+[//]: # ()
+[//]: # (    npm install)
+
+[//]: # ()
+[//]: # (## Developing)
+
+[//]: # ()
+[//]: # (Run tests once)
+
+[//]: # ()
+[//]: # (    npm run test)
+
+[//]: # ()
+[//]: # (Run tests continuously)
+
+[//]: # ()
+[//]: # (    npm run autotest)
+
+[//]: # ()
+[//]: # (Code reformat)
+
+[//]: # ()
+[//]: # (    npm run format)
