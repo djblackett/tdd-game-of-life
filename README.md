@@ -8,6 +8,8 @@ generations also in RLE format.
 A basic web interface was created for testing purposes, but it's not the goal of this project. 
 
 This project was completed as a final assignment for University of Helsinki's course Test-Driven Development (https://tdd.mooc.fi/)
+Screen recording of process: https://youtube.com/playlist?list=PLYA2Psv_l3x6DfOjEm2yzF_rJxS4bdU7y&si=vkXEkls6OiWSl8jc
+
 ## How to run
 
 Run program with `npm start` followed by arguments for `filepath` and `number_of_generations`   
